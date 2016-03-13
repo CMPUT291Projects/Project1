@@ -87,6 +87,6 @@ public class Main
    			System.err.println("SQLException: " +
           	ex.getMessage());
 		}
-		return null;
+		return m_conn;
 	}
 }
