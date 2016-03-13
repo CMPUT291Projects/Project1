@@ -3,7 +3,7 @@ public class DrivingCondition{
 	String description;
 
 	Public DrivingCondition(int c_id, String description){
-		this.c_id;
+		this.c_id = c_id;
 		this.description = description;
 	}
 }
