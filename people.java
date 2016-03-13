@@ -9,7 +9,7 @@ public class people{
 	String addr;
 	String gender;
 	String birthday;
-	public people(String sin, String name, float height, float weight, String eyecolor, 
+	public people(String sin, String name, float height, float weight, String eyecolor,
 		String haircolor, String addr, String gender, String birthday){
 
 		this.sin = sin;
@@ -21,5 +21,17 @@ public class people{
 		this.addr = addr;
 		this.gender = gender;
 		this.birthday = birthday;
+	}
+
+	public people(String sin) {
+		this.sin = sin;
+		this.name = " ";
+		this.height = 1.0;
+		this.weight = 1.0;
+		this.eyecolor = " ";
+		this.haircolor = " ";
+		this.addr = "";
+		this.gender = " ";
+		this.birthday = " ";
 	}
 }

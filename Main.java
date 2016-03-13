@@ -8,8 +8,6 @@ public class Main
 		Connection cnxn;
 		cnxn = loginToDataBase();
 		try {
-			Statement stmt = cnxn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
 			Boolean connected = true;
 			// Create main menu
 			while (connected) {
@@ -28,6 +26,7 @@ public class Main
 				}
 				else if (action.equals("A")) {
 					AutoTransaction at = new AutoTransaction(cnxn);
+					at.run();
 				}
 				else if (action.equals("L")) {
 					LicenceRegistration lr = new LicenceRegistration(cnxn);
@@ -40,7 +39,6 @@ public class Main
 				}
 				else if (action.equals("E")) {
 					// No more statements to compile/execute. So, close connection.
-					stmt.close();
 		            cnxn.close();
 					connected = false;
 				}
