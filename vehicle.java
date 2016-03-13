@@ -1,4 +1,4 @@
-public class Vehicle
+public class vehicle
 {
 	public String serial_no;
 	public String maker;
@@ -7,7 +7,7 @@ public class Vehicle
 	public String color;
 	public int type_id;
 
-	public Vehicle(String serial_no, String maker, String model,
+	public vehicle(String serial_no, String maker, String model,
 			int year, String color, int type_id)
 	{
 

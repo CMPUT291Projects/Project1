@@ -67,8 +67,7 @@ public class Adapter
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
-	      	while (rs.next())
-		    {
+	      		while (rs.next()){
 				Field[] newFields = obj.getClass().getFields();
 
 				for (Field field : newFields) {

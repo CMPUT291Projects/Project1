@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Ticket
+public class ticket
 {
 	public int ticket_no;
 	public String violator_no;
@@ -11,7 +11,7 @@ public class Ticket
 	public String place;
 	public String descriptions;
 
-	public Ticket(int ticket_no, String violator_no, String office_no,
+	public ticket(int ticket_no, String violator_no, String office_no,
 			String vtype, Date vdate, String place, String descriptions)
 	{
 		this.ticket_no = ticket_no;
