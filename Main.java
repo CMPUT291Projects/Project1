@@ -21,20 +21,21 @@ public class Main
 								"To exit the system press 'E'\n");
 				Console co = System.console();
 				String action = co.readLine();
+				System.out.println();
 				if (action.equals("R")) {
-
+					VehicleRegistration vr = new VehicleRegistration(cnxn);
 				}
 				else if (action.equals("A")) {
-
+					AutoTransaction at = new AutoTransaction(cnxn);
 				}
 				else if (action.equals("L")) {
-
+					LicenceRegistration lr = new LicenceRegistration(cnxn);
 				}
 				else if (action.equals("V")) {
-
+					ViolationRecord vr = new ViolationRecord(cnxn);
 				}
 				else if (action.equals("S")) {
-
+					SearchEngine se = new SearchEngine(cnxn);
 				}
 				else if (action.equals("E")) {
 					// No more statements to compile/execute. So, close connection.
@@ -87,6 +88,6 @@ public class Main
    			System.err.println("SQLException: " +
           	ex.getMessage());
 		}
-		return m_conn;
+		return null;
 	}
 }
