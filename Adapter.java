@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class Adapter
 {
-	boolean toSql(Connection conn, Object obj) {
+	void toSql(Connection conn, Object obj) {
 		try {
 			String name = obj.getClass().getName();
 			Field[] fields = obj.getClass().getFields();
@@ -20,7 +20,14 @@ public class Adapter
 
 			builder.append(") values (");
 			for (Field field: fields) {
+				boolean isString = field.getType() == String.class;
+				if (isString) {
+					builder.append("'");
+				}
 				builder.append(field.get(obj).toString());
+				if (isString) {
+					builder.append("'");
+				}
 				builder.append(",");
 			}
 			builder.deleteCharAt(builder.length() -1);
@@ -31,9 +38,8 @@ public class Adapter
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
-			return true;
 		} catch (Exception ex) {
-			return false;
+			throw new RuntimeException(ex);
 		}
 	}
 

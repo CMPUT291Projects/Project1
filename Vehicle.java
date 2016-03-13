@@ -20,6 +20,6 @@ public class Vehicle
 		this.model = "a";
 		this.year = 0;
 		this.color = "a";
-		this.type_id = 0;
+		this.type_id = 1;
 	}
 }
