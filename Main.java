@@ -7,6 +7,49 @@ public class Main
 	public static void main(String[] args) {
 		Connection cnxn;
 		cnxn = loginToDataBase();
+		try {
+			Statement stmt = cnxn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+			Boolean connected = true;
+			// Create main menu
+			while (connected) {
+				System.out.print("To register a new vehicle enter 'R'\n" +
+								"To enter a new auto transaction enter 'A'\n" +
+								"To register a new driver's licence enter 'L'\n" +
+								"To enter a new violation record enter 'V'\n" +
+								"To perform a search enter 'S'\n" +
+								"To exit the system press 'E'\n");
+				Console co = System.console();
+				String action = co.readLine();
+				if (action.equals("R")) {
+
+				}
+				else if (action.equals("A")) {
+
+				}
+				else if (action.equals("L")) {
+
+				}
+				else if (action.equals("V")) {
+
+				}
+				else if (action.equals("S")) {
+
+				}
+				else if (action.equals("E")) {
+					// No more statements to compile/execute. So, close connection.
+					stmt.close();
+		            cnxn.close();
+					connected = false;
+				}
+				else {
+					System.err.println("Invalid value entered, please try again\n");
+				}
+			}
+		} catch (SQLException ex) {
+			System.err.println("SQLException: " +
+			ex.getMessage());
+		}
 	}
 
 	private static Connection loginToDataBase() {
