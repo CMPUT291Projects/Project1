@@ -42,7 +42,4 @@ public class Adapter
 			throw new RuntimeException(ex);
 		}
 	}
-
-
-	//T fromSql(Connection conn);
 }
