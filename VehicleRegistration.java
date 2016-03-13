@@ -12,11 +12,27 @@ public class VehicleRegistration
 	}
 
 	public void run() {
-		System.out.print("Vehicle serial no\n");
 		Console co = System.console();
+		System.out.print("Vehicle serial no\n");
 		String serial_no = co.readLine();
 
-		Vehicle v = new Vehicle(serial_no);
+		System.out.print("Vehicle maker\n");
+		String maker = co.readLine();
+
+		System.out.print("Vehicle model\n");
+		String model = co.readLine();
+
+		System.out.print("Vehicle year\n");
+		Integer year = Integer.parseInt(co.readLine());
+
+		System.out.print("Vehicle color\n");
+		String color = co.readLine();
+
+		System.out.print("Vehicle type\n");
+		Integer type = Integer.parseInt(co.readLine());
+
+		vehicle v = new vehicle(serial_no, maker, model,
+						year, color, type);
 		Adapter a = new Adapter();
 		a.toSql(conn, v);
 	}

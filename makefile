@@ -1,5 +1,11 @@
 all: main
 
-main: javac *.java
+main:
+	javac *.java
 
-clean: rm *.class
+run: main
+	export CLASSPATH=$CLASSPATH\:.\:/oracle/jdbc/lib/ojdbc5.jar
+	java Main
+
+clean: 
+	rm *.class

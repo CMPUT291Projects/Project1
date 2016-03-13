@@ -3,17 +3,22 @@ public class vehicle
 	public String serial_no;
 	public String maker;
 	public String model;
-	public int year;
+	public Integer year;
 	public String color;
-	public int type_id;
+	public Integer type_id;
 
 	public vehicle(String serial_no, String maker, String model,
-			int year, String color, int type_id)
+			Integer year, String color, Integer type_id)
 	{
-
+		this.serial_no = serial_no;
+		this.maker = maker;
+		this.model = model;
+		this.year = year;
+		this.color = color;
+		this.type_id = type_id;
 	}
 
-	public Vehicle(String serial_no)
+	public vehicle(String serial_no)
 	{
 		this.serial_no = serial_no;
 		this.maker = "a";

@@ -35,6 +35,7 @@ public class Adapter
 
 			String createString = builder.toString();
 			System.out.println(createString);
+			System.out.println(conn == null);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
