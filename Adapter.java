@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class Adapter
 {
-	boolean toSql(Connection conn, Object obj) {
+	void toSql(Connection conn, Object obj) {
 		try {
 			String name = obj.getClass().getName();
 			Field[] fields = obj.getClass().getFields();
@@ -20,7 +20,14 @@ public class Adapter
 
 			builder.append(") values (");
 			for (Field field: fields) {
+				boolean isString = field.getType() == String.class;
+				if (isString) {
+					builder.append("'");
+				}
 				builder.append(field.get(obj).toString());
+				if (isString) {
+					builder.append("'");
+				}
 				builder.append(",");
 			}
 			builder.deleteCharAt(builder.length() -1);
@@ -31,9 +38,8 @@ public class Adapter
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
-			return true;
 		} catch (Exception ex) {
-			return false;
+			throw new RuntimeException(ex);
 		}
 	}
 
@@ -57,25 +63,27 @@ public class Adapter
 			builder.append(value);
 
 			String query = builder.toString();
-			System.out.println(query);
 
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
 	      	while (rs.next())
 		    {
-				//Class T = obj.getClass();
-				Object result = obj.getClass().newInstance();
-				Field[] newFields = result.getClass().getFields();
+				Field[] newFields = obj.getClass().getFields();
 
 				for (Field field : newFields) {
-					field.set(result, rs.getString(field.getName()));
-					System.out.println(rs.getString(field.getName()));
+					if (field.getType() == Float.class) {
+						field.set(obj, rs.getFloat(field.getName()));
+					} else {
+						field.set(obj, rs.getObject(field.getName()));
+						System.out.println(rs.getObject(field.getName()));
+
+					}
 				}
 			}
-			return result;
+			return obj;
 		} catch (Exception ex) {
-			return null;
+			throw new RuntimeException(ex);
 		}
 	}
 

@@ -1,16 +1,19 @@
+import java.util.Date;
+
 public class people{
 
-	String sin;
-	String name;
-	float height;
-	float weight;
-	String eyecolor;
-	String haircolor;
-	String addr;
-	String gender;
-	String birthday;
+	public String sin;
+	public String name;
+	public Float height;
+	public Float weight;
+	public String eyecolor;
+	public String haircolor;
+	public String addr;
+	public String gender;
+	public Date birthday;
+
 	public people(String sin, String name, float height, float weight, String eyecolor,
-		String haircolor, String addr, String gender, String birthday){
+		String haircolor, String addr, String gender, Date birthday){
 
 		this.sin = sin;
 		this.name = name;
@@ -26,12 +29,12 @@ public class people{
 	public people(String sin) {
 		this.sin = sin;
 		this.name = " ";
-		this.height = 1.0;
-		this.weight = 1.0;
+		this.height = new Float(1.0);
+		this.weight = new Float(1.0);
 		this.eyecolor = " ";
 		this.haircolor = " ";
 		this.addr = "";
 		this.gender = " ";
-		this.birthday = " ";
+		this.birthday = null;
 	}
 }

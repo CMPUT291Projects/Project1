@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class Ticket
 {
 	public int ticket_no;
@@ -9,8 +11,8 @@ public class Ticket
 	public String place;
 	public String descriptions;
 
-	public Ticket(int ticket_no, String violator_no, String office_no, 
-			String vtype, Data vdate, String place, String descriptions)
+	public Ticket(int ticket_no, String violator_no, String office_no,
+			String vtype, Date vdate, String place, String descriptions)
 	{
 		this.ticket_no = ticket_no;
 		this.violator_no = violator_no;

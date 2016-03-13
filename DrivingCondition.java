@@ -1,8 +1,8 @@
 public class DrivingCondition{
-	int c_id; 
+	int c_id;
 	String description;
 
-	Public DrivingCondition(int c_id, String description){
+	public DrivingCondition(int c_id, String description){
 		this.c_id = c_id;
 		this.description = description;
 	}

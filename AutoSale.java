@@ -1,3 +1,5 @@
+import java.util.Date;
+
 public class AutoSale
 {
 	public int transaction_id;
@@ -7,7 +9,7 @@ public class AutoSale
 	public Date s_date;
 	public float price;
 
-	public AutoSale(int transaction_id, String seller_id, String buyer_id, 
+	public AutoSale(int transaction_id, String seller_id, String buyer_id,
 			String vehicle_id, Date s_date, float price)
 	{
 		this.transaction_id = transaction_id;
@@ -16,5 +18,5 @@ public class AutoSale
 		this.vehicle_id = vehicle_id;
 		this.s_date = s_date;
 		this.price = price;
-	} 
+	}
 }
