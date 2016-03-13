@@ -5,10 +5,11 @@ import java.io.*; // Java package includes Console for getting password from use
 public class Main
 {
 	public static void main(String[] args) {
-		loginToDataBase();
+		Connection cnxn;
+		cnxn = loginToDataBase();
 	}
 
-	private static void loginToDataBase() {
+	private static Connection loginToDataBase() {
 		// get username
 		System.out.print("Username: ");
 		Console co = System.console();
@@ -38,9 +39,11 @@ public class Main
 		try	{
 			// Establish a connection
 			m_con = DriverManager.getConnection(m_url, m_userName, m_password);
+			return m_con;
 		} catch(SQLException ex) {
    			System.err.println("SQLException: " +
           	ex.getMessage());
 		}
+		return null;
 	}
 }
