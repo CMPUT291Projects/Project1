@@ -68,16 +68,22 @@ public class Adapter
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
-	      		while (rs.next()){
+			// Check that the query returned a result
+			if (!rs.isBeforeFirst()) { // returns false if rs has no rows
+				return null;
+			}
+			// If there was a result, use the returned data to create an object
+	      	while (rs.next()){
 				Field[] newFields = obj.getClass().getFields();
 
 				for (Field field : newFields) {
 					if (field.getType() == Float.class) {
 						field.set(obj, rs.getFloat(field.getName()));
+					} else if (field.getType() == Integer.class) {
+						field.set(obj, rs.getInt(field.getName()));
 					} else {
 						field.set(obj, rs.getObject(field.getName()));
 						System.out.println(rs.getObject(field.getName()));
-
 					}
 				}
 			}
