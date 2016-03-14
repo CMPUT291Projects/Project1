@@ -1,6 +1,6 @@
 public class vehicle_type
 {
-	public int type_id;
+	public Integer type_id;
 	public String type;
 
 	public vehicle_type(int type_id, String type)

@@ -40,7 +40,9 @@ public class Main
 				}
 				else if (action.equals("E")) {
 					// No more statements to compile/execute. So, close connection.
-		            cnxn.close();
+					if (cnxn != null) {
+		           			cnxn.close();
+					}
 					connected = false;
 				}
 				else {
