@@ -30,6 +30,7 @@ public class Main
 				}
 				else if (action.equals("L")) {
 					LicenceRegistration lr = new LicenceRegistration(cnxn);
+					lr.run();
 				}
 				else if (action.equals("V")) {
 					ViolationRecord vr = new ViolationRecord(cnxn);
