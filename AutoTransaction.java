@@ -1,6 +1,9 @@
 import java.util.*;
 import java.sql.*;
 import java.io.*;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class AutoTransaction
 {
@@ -29,7 +32,6 @@ public class AutoTransaction
 			}
 			// Create buyer
 			System.out.print("Buyer SIN:  ");
-			co = System.console();
 			sin = co.readLine();
 
 			p = new people(sin);
@@ -39,7 +41,6 @@ public class AutoTransaction
 			}
 			// Create vehicle
 			System.out.print("Vehicle serial number:  ");
-			co = System.console();
 			String serial_no = co.readLine();
 
 			vehicle v = new vehicle(serial_no);
@@ -47,6 +48,27 @@ public class AutoTransaction
 			if (auto == null) {
 				System.err.println("Vehicle does not exist in system");
 			}
+			// Get price
+			System.out.print("Price:  ");
+			Float price = new Float(co.readLine());
+
+			// Delete old ownership
+			String dropStmt = "delete from owner where (owner_id=" + seller.sin +
+							" and vehicle_id=" + auto.serial_no + ")";
+			stmt.executeUpdate(dropStmt);
+
+			// Create new objects
+			owner newOwner = new owner(buyer.sin, auto.serial_no, true);
+			Integer trans_id = new Random().nextInt();
+			try {
+				//Taky, http://stackoverflow.com/questions/14558289/java-insert-into-a-table-datetime-data, 2016-03-13
+				Timestamp timestamp = new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis());
+				auto_sale newSale = new auto_sale(trans_id, seller.sin, buyer.sin, auto.serial_no, timestamp, price);
+				a.toSql(conn, newSale);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+
 			stmt.close();
 		} catch(SQLException ex) {
 			System.err.println("SQLException: " +
