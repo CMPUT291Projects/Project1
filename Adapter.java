@@ -82,7 +82,7 @@ public class Adapter
 				return null;
 			}
 			// If there was a result, use the returned data to create an object
-	      	while (rs.next()) {
+	      		while (rs.next()) {
 				Field[] newFields = obj.getClass().getFields();
 
 				for (Field field : newFields) {
