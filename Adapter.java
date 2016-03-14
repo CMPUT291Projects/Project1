@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.lang.*;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 public class Adapter
 {
@@ -20,13 +21,21 @@ public class Adapter
 
 			builder.append(") values (");
 			for (Field field: fields) {
+				//System.out.println(field.getType());
 				boolean isString = field.getType() == String.class;
+				boolean isDate = field.getType() == Date.class;
 				if (isString) {
 					builder.append("'");
+				}
+				if (isDate) {
+					builder.append("TO_DATE(substr('");
 				}
 				builder.append(field.get(obj).toString());
 				if (isString) {
 					builder.append("'");
+				}
+				if (isDate) {
+					builder.append("', 1, 19), 'YYYY-MM-DD HH24:MI:SS')");
 				}
 				builder.append(",");
 			}
@@ -35,7 +44,6 @@ public class Adapter
 
 			String createString = builder.toString();
 			System.out.println(createString);
-			System.out.println(conn == null);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
