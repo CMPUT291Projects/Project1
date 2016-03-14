@@ -28,6 +28,7 @@ public class Adapter
 					builder.append("'");
 				}
 				if (isDate) {
+					// Justin Cave, http://stackoverflow.com/questions/9180014/using-oracle-to-date-function-for-date-string-with-milliseconds, 2016-03-14
 					builder.append("TO_DATE(substr('");
 				}
 				builder.append(field.get(obj).toString());
@@ -91,7 +92,6 @@ public class Adapter
 						field.set(obj, rs.getInt(field.getName()));
 					} else {
 						field.set(obj, rs.getObject(field.getName()));
-						System.out.println(rs.getObject(field.getName()));
 					}
 				}
 			}

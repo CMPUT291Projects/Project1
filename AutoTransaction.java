@@ -58,16 +58,14 @@ public class AutoTransaction
 			stmt.executeUpdate(dropStmt);
 
 			// Create new objects
-			owner newOwner = new owner(buyer.sin, auto.serial_no, true);
+			owner newOwner = new owner(buyer.sin, auto.serial_no, "y");
+			a.toSql(conn, newOwner);
 			Integer trans_id = new Random().nextInt();
-			try {
-				// Taky, http://stackoverflow.com/questions/14558289/java-insert-into-a-table-datetime-data, 2016-03-13
-				Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
-				auto_sale newSale = new auto_sale(trans_id, seller.sin, buyer.sin, auto.serial_no, timestamp, price);
-				a.toSql(conn, newSale);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+			// Taky, http://stackoverflow.com/questions/14558289/java-insert-into-a-table-datetime-data, 2016-03-13
+			Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+			auto_sale newSale = new auto_sale(trans_id, seller.sin, buyer.sin, auto.serial_no, timestamp, price);
+			a.toSql(conn, newSale);
+
 
 			stmt.close();
 		} catch(SQLException ex) {
