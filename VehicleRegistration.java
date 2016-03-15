@@ -98,19 +98,6 @@ public class VehicleRegistration
 				//get owner ID, apparently not an int
 				System.out.print("Owner SIN?\n");
 				String ownerId = co.readLine();
-				
-				/*boolean goodValue = false;
-				while (!goodValue) {
-					try {
-						System.out.print("Owner SIN?\n");
-						response = co.readLine();
-						Integer.parseInt(co.readLine());
-						ownerId 
-						goodValue = true;
-					} catch (NumberFormatException ex) {
-						System.out.print("Invalid type SIN format, try again with an integer value\n");
-					}
-				}*/
 
 				//get if primary owner
 				boolean primaryOwner = false;
