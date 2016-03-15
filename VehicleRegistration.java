@@ -1,6 +1,7 @@
 import java.util.*;
 import java.sql.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class VehicleRegistration
 {
@@ -12,8 +13,8 @@ public class VehicleRegistration
 	}
 
 	public void run() {
-		insertVehicle();
-		insertOwner();
+		String serialNo = insertVehicle();
+		insertOwner(serialNo);
 	}
 
 	//returns the serial number of inserted vehicle
@@ -80,6 +81,7 @@ public class VehicleRegistration
 						year, color, input_type);
 		Adapter a = new Adapter();
 		a.toSql(conn, v);
+		return serial_no;
 
 	}
 
@@ -93,31 +95,34 @@ public class VehicleRegistration
 			String response = co.readLine();
 			if (response.equals("Y")) {
 
-				//get owner ID
-				String ownerId = null;
-				boolean goodValue = false;
+				//get owner ID, apparently not an int
+				System.out.print("Owner SIN?\n");
+				String ownerId = co.readLine();
+				
+				/*boolean goodValue = false;
 				while (!goodValue) {
 					try {
 						System.out.print("Owner SIN?\n");
 						response = co.readLine();
-						ownerId = Integer.parseInt(co.readline());
+						Integer.parseInt(co.readLine());
+						ownerId 
 						goodValue = true;
 					} catch (NumberFormatException ex) {
 						System.out.print("Invalid type SIN format, try again with an integer value\n");
 					}
-				}
+				}*/
 
 				//get if primary owner
 				boolean primaryOwner = false;
-				goodvalue = false;
+				boolean goodValue = false;
 				while (!goodValue) {
 					System.out.print("Is primary owner? (Y/N)\n");
 					response = co.readLine();
 					
-					if (response.equals("Y") {
+					if (response.equals("Y")) {
 						primaryOwner = true;
 						goodValue = true;
-					} else if (response.equals("N") {
+					} else if (response.equals("N")) {
 						primaryOwner = false;
 						goodValue = true;
 					} else {
@@ -131,7 +136,7 @@ public class VehicleRegistration
 					insertPerson(ownerId);
 				}
 				
-			} else if (response.equals("N") {
+			} else if (response.equals("N")) {
 				break;
 			} else {
 				System.out.print("Invalid option, select [Y]es or [N]o\n");
@@ -191,11 +196,12 @@ public class VehicleRegistration
 		}
 		
 		goodValue = false;
-		SimpleDateFormat birthday = null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date birthday = null;
 		while (!goodValue) {
 			System.out.print("birthday? (yyyy-MM-dd)\n");
 			try {
-				birthday = new SimpleDateFormat(co.readLine());
+				birthday = format.parse(co.readLine());
 				goodValue = true;
 			} catch (Exception ex) {
 				System.out.print("invalid birthday format, use 'yyyy-MM-dd'\n");
@@ -203,13 +209,13 @@ public class VehicleRegistration
 		}
 
 	 	people p = new people(SIN, name, height, weight, eyeColor, 
-					hairColor, addr, gender, birthday)
+					hairColor, addr, gender, birthday);
 		Adapter a = new Adapter();
 		a.toSql(conn, p);
 	}
 
 	
-	private boolean sinExists(String sin)
+	private boolean personExists(String sin)
 	{
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
