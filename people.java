@@ -12,7 +12,7 @@ public class people{
 	public String gender;
 	public Date birthday;
 
-	public people(String sin, String name, float height, float weight, String eyecolor,
+	public people(String sin, String name, Float height, Float weight, String eyecolor,
 		String haircolor, String addr, String gender, Date birthday){
 
 		this.sin = sin;

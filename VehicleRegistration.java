@@ -12,6 +12,13 @@ public class VehicleRegistration
 	}
 
 	public void run() {
+		insertVehicle();
+		insertOwner();
+	}
+
+	//returns the serial number of inserted vehicle
+	private String insertVehicle()
+	{
 		Console co = System.console();
 		String serial_no = null;
 		do {
@@ -73,6 +80,149 @@ public class VehicleRegistration
 						year, color, input_type);
 		Adapter a = new Adapter();
 		a.toSql(conn, v);
+
+	}
+
+
+	private void insertOwner(String serial_no)
+	{
+		while (true)
+		{
+			System.out.print("Register a owner for vehicle? (Y/N)\n");
+			Console co = System.console();
+			String response = co.readLine();
+			if (response.equals("Y")) {
+
+				//get owner ID
+				String ownerId = null;
+				boolean goodValue = false;
+				while (!goodValue) {
+					try {
+						System.out.print("Owner SIN?\n");
+						response = co.readLine();
+						ownerId = Integer.parseInt(co.readline());
+						goodValue = true;
+					} catch (NumberFormatException ex) {
+						System.out.print("Invalid type SIN format, try again with an integer value\n");
+					}
+				}
+
+				//get if primary owner
+				boolean primaryOwner = false;
+				goodvalue = false;
+				while (!goodValue) {
+					System.out.print("Is primary owner? (Y/N)\n");
+					response = co.readLine();
+					
+					if (response.equals("Y") {
+						primaryOwner = true;
+						goodValue = true;
+					} else if (response.equals("N") {
+						primaryOwner = false;
+						goodValue = true;
+					} else {
+						goodValue = false;
+						System.out.print("Invalid option, select [Y]es or [N]o\n");
+					}
+				}
+
+				if (!personExists(ownerId)) {
+					System.out.print("It appears that person does not exist, we will enter that data now\n");
+					insertPerson(ownerId);
+				}
+				
+			} else if (response.equals("N") {
+				break;
+			} else {
+				System.out.print("Invalid option, select [Y]es or [N]o\n");
+			}
+		}
+	}
+
+	private void insertPerson(String SIN)
+	{
+		Console co = System.console();
+		System.out.print("Name?");
+		String name = co.readLine();
+		
+		Float height = null;
+		boolean goodValue = false;
+		while (!goodValue) {
+			try {
+				System.out.print("Height? (ex 113.42)\n");
+				height = Float.parseFloat(co.readLine());
+				goodValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
+			}
+		}
+
+		Float weight = null;
+		goodValue = false;
+		while (!goodValue) {
+			try {
+				System.out.print("Weight? (ex 113.42)\n");
+				weight = Float.parseFloat(co.readLine());
+				goodValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
+			}
+		}
+
+		System.out.print("Eye Color?\n");
+		String eyeColor = co.readLine();
+
+		System.out.print("Hair Color?\n");
+		String hairColor = co.readLine();
+
+		System.out.print("Address?\n");
+		String addr = co.readLine();
+
+		goodValue = false;
+		String gender = null;
+		while (!goodValue) {
+			System.out.print("gender? (m, f)\n");
+			gender = co.readLine();
+			if (!gender.equals("m") && !gender.equals("f")) {
+				System.out.print("gender must be 'm' or 'f', try again");
+			} else {
+				goodValue = true;
+			}
+		}
+		
+		goodValue = false;
+		SimpleDateFormat birthday = null;
+		while (!goodValue) {
+			System.out.print("birthday? (yyyy-MM-dd)\n");
+			try {
+				birthday = new SimpleDateFormat(co.readLine());
+				goodValue = true;
+			} catch (Exception ex) {
+				System.out.print("invalid birthday format, use 'yyyy-MM-dd'\n");
+			}
+		}
+
+	 	people p = new people(SIN, name, height, weight, eyeColor, 
+					hairColor, addr, gender, birthday)
+		Adapter a = new Adapter();
+		a.toSql(conn, p);
+	}
+
+	
+	private boolean sinExists(String sin)
+	{
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String query = String.format("select sin from people where sin=%s", sin);
+			ResultSet rs = stmt.executeQuery(query);
+			if(!rs.next()) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	//TODO(crashes if I pass 'asdf' as the id)
