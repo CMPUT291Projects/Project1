@@ -23,8 +23,8 @@ public class LicenceRegistration
 		System.out.print("Insert licence no.\n");
 		Console co = System.console();
 		String licence_no = co.readLine();
-
-		String sin;
+		boolean goodValue;
+		String sin = null;
 		String temp_sin;
 		do {
 			System.out.print("Insert SIN.\n");
@@ -34,7 +34,7 @@ public class LicenceRegistration
 			} else {
 				System.out.print("SIN already exists, try again\n");
 			}
-		} while (serial_no == null);
+		} while (sin == null);
 
 		System.out.print("Insert classType.\n");
 		String classType = co.readLine();
@@ -83,7 +83,7 @@ public class LicenceRegistration
 		while (!goodValue) {
 			System.out.print("Insert issuing date (yyyy-MM-dd).\n");
 			try {
-				birthday = format.parse(co.readLine());
+				issuing_date = format.parse(co.readLine());
 				goodValue = true;
 			} catch (Exception ex) {
 				System.out.print("invalid issuing date format, use 'yyyy-MM-dd'\n");
@@ -91,12 +91,11 @@ public class LicenceRegistration
 		}
 
 		goodValue = false;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date expiring_date = null;
 		while (!goodValue) {
 			System.out.print("Insert expiring date (yyyy-MM-dd).\n");
 			try {
-				birthday = format.parse(co.readLine());
+				expiring_date = format.parse(co.readLine());
 				goodValue = true;
 			} catch (Exception ex) {
 				System.out.print("invalid expiration date format, use 'yyyy-MM-dd'\n");
@@ -106,6 +105,21 @@ public class LicenceRegistration
 		drive_licence dl = new drive_licence(licence_no, sin, classType, picture, issuing_date, expiring_date);
 		Adapter a = new Adapter();
 		a.toSql(conn, dl);
-		
+	}
+
+	private boolean idExists(String id, Connection conn)
+	{
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String query = String.format("select sin from drive_licence where sin=%s", id);
+			ResultSet rs = stmt.executeQuery(query);
+			if(!rs.next()) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 }
