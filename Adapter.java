@@ -3,6 +3,7 @@ import java.lang.*;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 
 public class Adapter
 {
@@ -25,6 +26,7 @@ public class Adapter
 				//System.out.println(field.getType());
 				boolean isString = field.getType() == String.class;
 				boolean isDate = field.getType() == Date.class;
+				boolean isFloat = field.getType() == Float.class;
 				if (isString || isDate) {
 					builder.append("'");
 				}
@@ -32,12 +34,17 @@ public class Adapter
 					// Justin Cave, http://stackoverflow.com/questions/9180014/using-oracle-to-date-function-for-date-string-with-milliseconds, 2016-03-14
 					//builder.append("TO_DATE(substr('");
 				//}
-				if (!isDate) {
-					builder.append(field.get(obj).toString());
-				} else {
+				
+				if (isDate) {
 					SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
 					Date date = (Date) field.get(obj);
 					builder.append(format.format(date));
+				} else if (isFloat) {
+					DecimalFormat df = new DecimalFormat("##.###");
+					Float flt = (Float) field.get(obj);
+					builder.append(df.format(flt));
+				} else {
+					builder.append(field.get(obj).toString());
 				}
 				if (isString || isDate) {
 					builder.append("'");
