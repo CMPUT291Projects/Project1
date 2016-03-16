@@ -31,11 +31,6 @@ public class Adapter
 				if (isString || isDate) {
 					builder.append("'");
 				}
-				//if (isDate) {
-					// Justin Cave, http://stackoverflow.com/questions/9180014/using-oracle-to-date-function-for-date-string-with-milliseconds, 2016-03-14
-					//builder.append("TO_DATE(substr('");
-				//}
-
 				if (isDate) {
 					SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
 					Date date = (Date) field.get(obj);
@@ -50,9 +45,6 @@ public class Adapter
 				if (isString || isDate) {
 					builder.append("'");
 				}
-				//if (isDate) {
-					//builder.append("', 1, 19), 'YYYY-MM-DD HH24:MI:SS')");
-				//}
 				builder.append(",");
 			}
 			builder.deleteCharAt(builder.length() -1);
@@ -82,9 +74,14 @@ public class Adapter
 			StringBuilder builder = new StringBuilder();
 			builder.append("select ");
 			for (Field field : fields) {
-				builder.append(field.getName());
+				if (field.getName().equals("classType")) {
+					builder.append("class");
+				} else {
+					builder.append(field.getName());
+				}
 				builder.append(",");
 			}
+
 			builder.deleteCharAt(builder.length() -1);
 			builder.append(" from ");
 			builder.append(table);
@@ -94,6 +91,7 @@ public class Adapter
 			builder.append(value);
 
 			String query = builder.toString();
+			System.out.println(query);
 
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
@@ -111,6 +109,8 @@ public class Adapter
 						field.set(obj, rs.getFloat(field.getName()));
 					} else if (field.getType() == Integer.class) {
 						field.set(obj, rs.getInt(field.getName()));
+					} else if (field.getName().equals("classType")) {
+						field.set(obj, rs.getObject("class"));
 					} else {
 						field.set(obj, rs.getObject(field.getName()));
 					}
@@ -138,10 +138,13 @@ public class Adapter
 			builder.append(table);
 			builder.append(" where ");
 			builder.append(colName);
-			builder.append("=");
+			builder.append("='");
 			builder.append(value);
+			builder.append("'");
 
 			String query = builder.toString();
+
+			System.out.println(query);
 
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
