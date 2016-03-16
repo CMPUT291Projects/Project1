@@ -37,4 +37,21 @@ public class drive_licence {
 		this.issuing_date = issuing_date;
 		this.expiring_date = expiring_date;
 	}
+
+	public drive_licence(){
+		this.licence_no = " ";
+		this.sin = " ";
+		this.classType = " ";
+		try{
+			this.photo = new SerialBlob(new byte[1]);
+		}
+		catch(SerialException e){
+			System.out.print("Error with Byte array");
+		}
+		catch(SQLException e){
+			System.out.print("Error with Serialblob");
+		}
+		this.issuing_date = issuing_date;
+		this.expiring_date = expiring_date;
+	}
 }

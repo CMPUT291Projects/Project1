@@ -38,6 +38,7 @@ public class Main
 				}
 				else if (action.equals("S")) {
 					SearchEngine se = new SearchEngine(cnxn);
+					se.run();
 				}
 				else if (action.equals("E")) {
 					// No more statements to compile/execute. So, close connection.

@@ -37,4 +37,16 @@ public class people{
 		this.gender = " ";
 		this.birthday = null;
 	}
+
+	public people() {
+		this.sin = " ";
+		this.name = " ";
+		this.height = new Float(1.0);
+		this.weight = new Float(1.0);
+		this.eyecolor = " ";
+		this.haircolor = " ";
+		this.addr = " ";
+		this.gender = " ";
+		this.birthday = null;
+	}
 }

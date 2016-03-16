@@ -10,7 +10,12 @@ public class SearchEngine
 	public SearchEngine(Connection conn)
 	{
 		this.conn = conn;
-		this.stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		try {
+			this.stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		} catch(SQLException ex) {
+			System.err.println("SQLException: " +
+			ex.getMessage());
+		}
 	}
 
 	public void run() {
@@ -43,7 +48,26 @@ public class SearchEngine
 	}
 
 	private void searchForName() {
+		Console co = System.console();
+		Adapter a = new Adapter();
 
+		System.out.print("Enter person's full name:  ");
+		String name = co.readLine();
+		people p = new people();
+		ArrayList<Object> nameResults = new ArrayList<Object>();
+		nameResults = a.searchTableAnyKey(conn, p, "name", name);
+
+		if (nameResults == null) {
+			System.err.println("No one with that name exists in system");
+			return;
+		}
+
+		for (Object nr : nameResults) {
+			people r = (people) nr;
+			drive_licence l = (drive_licence) a.searchTablePrimaryKey(conn, new drive_licence(), "sin", r.sin);
+			System.out.print("Name:  "); System.out.println(r.name);
+			System.out.print("Address:  "); System.out.println(r.addr);
+		}
 	}
 
 	private void searchforLicenceNo() {
