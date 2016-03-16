@@ -1,6 +1,8 @@
 import java.util.*;
 import java.sql.*;
 import java.io.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /*
 CREATE TABLE ticket (
@@ -28,7 +30,8 @@ public class ViolationRecord
 		this.conn = conn;
 	}
 
-	public void Run() {
+	public void run() {
+		Console co = System.console();
 		System.out.print("violator sin\n");
 		String sin = co.readLine();
 		
@@ -38,9 +41,29 @@ public class ViolationRecord
 		System.out.print("officer number\n");
 		String onum = co.readLine();
 
-		System.out.print("violation type\n");
 
-		Date vdate = getDate("violation date? (yyyy-MM-dd)\n");
+		List<ticket_type> types = getTicketTypes(conn);
+		boolean goodValue = false;
+		String input_type = null;
+		while(!goodValue) {
+			System.out.print("violation type (  ");
+			for (ticket_type type : types) {
+				System.out.print(String.format("%s=%f  ", type.vtype.trim(), type.fine));
+			}
+			System.out.print(")\n");
+			input_type = co.readLine();
+			input_type = input_type.replace("\n", "");
+			for (ticket_type type : types) {
+				if (type.vtype.equals(input_type)) {
+					goodValue = true;
+				}
+			}
+			if (!goodValue) {
+				System.out.print("Invalid type, does not exist, try again\n");
+			}
+		}
+
+		java.util.Date vdate = getDate("violation date? (yyyy-MM-dd)\n");
 
 		System.out.print("violation place\n");
 		String place = co.readLine();
@@ -51,23 +74,25 @@ public class ViolationRecord
 
 	}
 
-	Date getDate(String prompt) {
-		goodValue = false;
+	java.util.Date getDate(String prompt) {
+		Console co = System.console();
+		boolean goodValue = false;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date birthday = null;
+		java.util.Date myDate = null;
 		while (!goodValue) {
 			System.out.print(prompt);
 			try {
-				birthday = format.parse(co.readLine());
+				myDate = format.parse(co.readLine());
 				goodValue = true;
 			} catch (Exception ex) {
 				System.out.print("invalid date format, use 'yyyy-MM-dd'\n");
 			}
 		}
+		return myDate;
 	}
 
 	Integer getInt(String prompt) {
-		
+		Console co = System.console();
 		boolean goodValue = false;
 		Integer value = null;
 		while(!goodValue) {
@@ -79,10 +104,10 @@ public class ViolationRecord
 				System.out.print("Invalid Integer Format\n");
 			}
 		}
-		return value
+		return value;
 	}
 
-	List<ticket_type> getTicketTypes() {
+	List<ticket_type> getTicketTypes(Connection conn) {
 		List<ticket_type> types = new ArrayList<ticket_type>();
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

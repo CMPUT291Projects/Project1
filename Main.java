@@ -34,6 +34,7 @@ public class Main
 				}
 				else if (action.equals("V")) {
 					ViolationRecord vr = new ViolationRecord(cnxn);
+					vr.run();
 				}
 				else if (action.equals("S")) {
 					SearchEngine se = new SearchEngine(cnxn);
