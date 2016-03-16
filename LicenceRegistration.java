@@ -19,7 +19,6 @@ public class LicenceRegistration
 	}
 
 	public void run() {
-		/*
 		System.out.print("Insert licence no.\n");
 		Console co = System.console();
 		String licence_no = co.readLine();
@@ -106,6 +105,5 @@ public class LicenceRegistration
 		drive_licence dl = new drive_licence(licence_no, sin, classType, picture, issuing_date, expiring_date);
 		Adapter a = new Adapter();
 		a.toSql(conn, dl);
-		*/
 	}
 }
