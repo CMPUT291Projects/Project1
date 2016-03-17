@@ -26,21 +26,21 @@ public class SearchEngine
 							"To search for a vehicle's serial number enter 'V'\n" +
 							"To return to the main menu press 'M'\n");
 			Console co = System.console();
-			String action = co.readLine();
+			String action = co.readLine().toLowerCase();
 			System.out.println();
-			if (action.equals("N")) {
+			if (action.equals("n")) {
 				searchForName();
 			}
-			else if (action.equals("L")) {
+			else if (action.equals("l")) {
 				searchforLicenceNo();
 			}
-			else if (action.equals("S")) {
+			else if (action.equals("s")) {
 				searchForSIN();
 			}
-			else if (action.equals("V")) {
+			else if (action.equals("v")) {
 				searchForSerialNo();
 			}
-			else if (action.equals("M")) {
+			else if (action.equals("m")) {
 				return;
 			}
 			else {
@@ -54,7 +54,7 @@ public class SearchEngine
 		Adapter a = new Adapter();
 
 		System.out.print("Enter person's full name:  ");
-		String name = co.readLine();
+		String name = co.readLine().toLowerCase();
 		people p = new people();
 		ArrayList<Object> nameResults = new ArrayList<Object>();
 		nameResults = a.searchTableAnyKey(conn, p, "name", name);
@@ -183,6 +183,46 @@ public class SearchEngine
 	}
 
 	private void searchForSerialNo() {
+		Console co = System.console();
+		Adapter a = new Adapter();
 
+		System.out.print("Enter vehicle's serial number:  ");
+		String sn = co.readLine();
+		vehicle v = new vehicle();
+		v = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", sn);
+
+		if (v == null) {
+			System.err.println("No vehicle with that serial number exists in system");
+			return;
+		}
+
+		// Get violation statistics
+		ticket k = new ticket();
+		ArrayList<Object> ticResults = new ArrayList<Object>();
+		ticResults = a.searchTableAnyKey(conn, k, "vehicle_id", v.serial_no);
+		if (ticResults == null) {
+			System.out.println("No recorded violations");
+		} else {
+			System.out.print("Number of recorded violations:  "); System.out.println(ticResults.size());
+		}
+
+		// Get sale statistics
+		auto_sale s = new auto_sale();
+		ArrayList<Object> saleResults = new ArrayList<Object>();
+		saleResults = a.searchTableAnyKey(conn, s, "vehicle_id", v.serial_no);
+		if (saleResults == null) {
+			System.out.println("No recorded sales");
+		} else {
+			System.out.print("Number of recorded sales:  "); System.out.println(saleResults.size());
+			Float avgPrice = new Float(0);
+			for (Object sr : saleResults) {
+				auto_sale r = (auto_sale) sr;
+				avgPrice +=  r.price;
+			}
+			avgPrice /= saleResults.size();
+			System.out.print("Average sale price:  "); System.out.println(avgPrice);
+		}
+		System.out.println();
+		return;
 	}
 }

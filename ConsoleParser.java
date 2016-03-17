@@ -2,7 +2,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.io.Console;
 
-public class ConsoleParser 
+public class ConsoleParser
 {
 	Console co;
 
@@ -43,6 +43,6 @@ public class ConsoleParser
 
 	public String getString(String prompt) {
 		System.out.print(prompt);
-		return co.readLine();
+		return co.readLine().toLowerCase();
 	}
 }

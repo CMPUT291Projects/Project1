@@ -7,6 +7,10 @@ public class Main
 	public static void main(String[] args) {
 		Connection cnxn;
 		cnxn = loginToDataBase();
+		if (cnxn == null) {
+			return;
+		}
+
 		try {
 			Boolean connected = true;
 			// Create main menu

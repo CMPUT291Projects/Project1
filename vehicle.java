@@ -27,4 +27,14 @@ public class vehicle
 		this.color = "a";
 		this.type_id = 0;
 	}
+
+	public vehicle()
+	{
+		this.serial_no = " ";
+		this.maker = " ";
+		this.model = " ";
+		this.year = 0;
+		this.color = " ";
+		this.type_id = 0;
+	}
 }
