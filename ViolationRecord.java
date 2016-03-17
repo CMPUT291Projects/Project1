@@ -32,10 +32,29 @@ public class ViolationRecord
 
 	public void run() {
 		ConsoleParser parser = new ConsoleParser();
-
-		//TODO(what to do on failure? either loop and ask again or exit)
-		String sin = parser.getString("violator sin\n");
-		String vid = parser.getString("vehicle id\n");
+		Adapter a = new Adapter();
+		String sin = null;
+		while (true) {
+			sin = parser.getString("violator sin\n");
+			people p = new people();
+			people registered_person = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
+			if(registered_person == null) {
+				System.out.print("that person does not, exist, try again with a different sin\n");
+			} else {
+				break;
+			}
+		}
+		String vid = null;
+		while (true) {
+			vid = parser.getString("vehicle id\n");
+			vehicle v = new vehicle();
+			vehicle registered_vehicle = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", vid);
+			if(registered_vehicle == null) {
+				System.out.print("that vehicle does not, exist, try again with a different vehicle id\n");
+			} else {
+				break;
+			}
+		}
 		String onum = parser.getString("officer number\n");
 
 		Console co = System.console();
@@ -68,8 +87,6 @@ public class ViolationRecord
 		Integer id = new Random().nextInt();
 
 		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);
-
-		Adapter a = new Adapter();
 		a.toSql(conn, tkt);
 
 
