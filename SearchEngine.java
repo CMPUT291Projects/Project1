@@ -19,31 +19,33 @@ public class SearchEngine
 	}
 
 	public void run() {
-		System.out.print("To search for a person's name enter 'N'\n" +
-						"To search for a licence number enter 'L'\n" +
-						"To search for a SIN number enter 'S'\n" +
-						"To search for a vehicle's serial number enter 'V'\n" +
-						"To return to the main menu press 'M'\n");
-		Console co = System.console();
-		String action = co.readLine();
-		System.out.println();
-		if (action.equals("N")) {
-			searchForName();
-		}
-		else if (action.equals("L")) {
-			searchforLicenceNo();
-		}
-		else if (action.equals("S")) {
-			searchForSIN();
-		}
-		else if (action.equals("V")) {
-			searchForSerialNo();
-		}
-		else if (action.equals("M")) {
-			return;
-		}
-		else {
-			System.err.println("Invalid value entered, please try again\n");
+		while (true) {
+			System.out.print("To search for a person's name enter 'N'\n" +
+							"To search for a licence number enter 'L'\n" +
+							"To search for a SIN number enter 'S'\n" +
+							"To search for a vehicle's serial number enter 'V'\n" +
+							"To return to the main menu press 'M'\n");
+			Console co = System.console();
+			String action = co.readLine();
+			System.out.println();
+			if (action.equals("N")) {
+				searchForName();
+			}
+			else if (action.equals("L")) {
+				searchforLicenceNo();
+			}
+			else if (action.equals("S")) {
+				searchForSIN();
+			}
+			else if (action.equals("V")) {
+				searchForSerialNo();
+			}
+			else if (action.equals("M")) {
+				return;
+			}
+			else {
+				System.err.println("Invalid value entered, please try again\n");
+			}
 		}
 	}
 
@@ -59,6 +61,7 @@ public class SearchEngine
 
 		if (nameResults == null) {
 			System.err.println("No one with that name exists in system");
+			System.out.println();
 			return;
 		}
 
@@ -94,6 +97,7 @@ public class SearchEngine
 
 		if (c == null) {
 			System.err.println("That licence number does not exist in the system");
+			System.out.println();
 			return;
 		}
 
@@ -120,6 +124,7 @@ public class SearchEngine
 
 		if (ticResults == null) {
 			System.out.println("No recorded violations");
+			System.out.println();
 			return;
 		}
 
@@ -139,7 +144,42 @@ public class SearchEngine
 	}
 
 	private void searchForSIN(){
+		Console co = System.console();
+		Adapter a = new Adapter();
 
+		System.out.print("Enter person's SIN:  ");
+		String psin = co.readLine();
+		people p = new people();
+		p = (people) a.searchTablePrimaryKey(conn, p, "sin", psin);
+
+		if (p == null) {
+			System.err.println("No one with that SIN exists in system");
+			System.out.println();
+			return;
+		}
+
+		ticket k = new ticket();
+		ArrayList<Object> ticResults = new ArrayList<Object>();
+		ticResults = a.searchTableAnyKey(conn, k, "violator_no", p.sin);
+
+		if (ticResults == null) {
+			System.out.println("No recorded violations");
+			System.out.println();
+			return;
+		}
+
+		for (Object tr : ticResults) {
+			ticket t = (ticket) tr;
+			System.out.print("Ticket number:  "); System.out.println(t.ticket_no);
+			System.out.print("Violator SIN:  "); System.out.println(t.violator_no);
+			System.out.print("Vehicle number:  "); System.out.println(t.vehicle_id);
+			System.out.print("Officer number:  "); System.out.println(t.office_no);
+			System.out.print("Violation type:  "); System.out.println(t.vtype);
+			System.out.print("Date:  "); System.out.println(t.vdate);
+			System.out.print("Place:  "); System.out.println(t.place);
+			System.out.print("Description:  "); System.out.println(t.descriptions);
+			System.out.println();
+		}
 	}
 
 	private void searchForSerialNo() {
