@@ -39,7 +39,7 @@ public class Adapter
 					DecimalFormat df = new DecimalFormat("##.###");
 					Float flt = (Float) field.get(obj);
 					builder.append(df.format(flt));
-				} else {
+				}  else {
 					builder.append(field.get(obj).toString());
 				}
 				if (isString || isDate) {
@@ -91,7 +91,6 @@ public class Adapter
 			builder.append(value);
 
 			String query = builder.toString();
-			System.out.println(query);
 
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
@@ -130,7 +129,11 @@ public class Adapter
 			StringBuilder builder = new StringBuilder();
 			builder.append("select ");
 			for (Field field : fields) {
-				builder.append(field.getName());
+				if (field.getName().equals("classType")) {
+					builder.append("class");
+				} else {
+					builder.append(field.getName());
+				}
 				builder.append(",");
 			}
 			builder.deleteCharAt(builder.length() -1);
@@ -144,8 +147,6 @@ public class Adapter
 
 			String query = builder.toString();
 
-			System.out.println(query);
-
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
@@ -157,16 +158,20 @@ public class Adapter
 			Field[] newFields = obj.getClass().getFields();
 			// If there was a result, use the returned data to create an object
 			while (rs.next()) {
+				Object newobj = obj.getClass().newInstance();
+
 				for (Field field : newFields) {
 					if (field.getType() == Float.class) {
-						field.set(obj, rs.getFloat(field.getName()));
+						field.set(newobj, rs.getFloat(field.getName()));
 					} else if (field.getType() == Integer.class) {
-						field.set(obj, rs.getInt(field.getName()));
+						field.set(newobj, rs.getInt(field.getName()));
+					} else if (field.getName().equals("classType")) {
+						field.set(newobj, rs.getObject("class"));
 					} else {
-						field.set(obj, rs.getObject(field.getName()));
+						field.set(newobj, rs.getObject(field.getName()));
 					}
 				}
-				results.add(obj);
+				results.add(newobj);
 			}
 			return results;
 		} catch (Exception ex) {

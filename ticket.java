@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class ticket
 {
-	public int ticket_no;
+	public Integer ticket_no;
 	public String violator_no;
 	public String vehicle_id;
 	public String office_no;
@@ -11,7 +11,7 @@ public class ticket
 	public String place;
 	public String descriptions;
 
-	public ticket(int ticket_no, String violator_no, String office_no,
+	public ticket(Integer ticket_no, String violator_no, String office_no,
 			String vtype, Date vdate, String place, String descriptions)
 	{
 		this.ticket_no = ticket_no;
@@ -22,5 +22,17 @@ public class ticket
 		this.vdate = vdate;
 		this.place = place;
 		this.descriptions = descriptions;
+	}
+
+	public ticket()
+	{
+		this.ticket_no = 0;
+		this.violator_no = " ";
+		this.vehicle_id = " ";
+		this.office_no =  " ";
+		this.vtype = " ";
+		this.vdate = null;
+		this.place = " ";
+		this.descriptions = " ";
 	}
 }

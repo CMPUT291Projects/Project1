@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class people{
+public class people implements Cloneable {
 
 	public String sin;
 	public String name;
@@ -49,4 +49,9 @@ public class people{
 		this.gender = " ";
 		this.birthday = null;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -6,4 +6,9 @@ public class driving_condition {
 		this.c_id = c_id;
 		this.description = description;
 	}
+
+	public driving_condition(){
+		this.c_id = 0;
+		this.description = " ";
+	}
 }

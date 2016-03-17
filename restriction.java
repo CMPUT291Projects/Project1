@@ -8,4 +8,10 @@ public class restriction
 		this.licence_no = licence_no;
 		this.r_id = r_id;
 	}
+
+	public restriction()
+	{
+		this.licence_no = " ";
+		this.r_id = 0;
+	}
 }
