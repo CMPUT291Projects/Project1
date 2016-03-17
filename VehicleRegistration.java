@@ -92,8 +92,8 @@ public class VehicleRegistration
 		{
 			System.out.print("Register a owner for vehicle? (Y/N)\n");
 			Console co = System.console();
-			String response = co.readLine();
-			if (response.equals("Y")) {
+			String response = co.readLine().toLowerCase();
+			if (response.equals("y")) {
 
 				//get owner ID, apparently not an int
 				System.out.print("Owner SIN?\n");
@@ -104,12 +104,12 @@ public class VehicleRegistration
 				boolean goodValue = false;
 				while (!goodValue) {
 					System.out.print("Is primary owner? (Y/N)\n");
-					response = co.readLine();
+					response = co.readLine().toLowerCase();
 
-					if (response.equals("Y")) {
+					if (response.equals("y")) {
 						primaryOwner = true;
 						goodValue = true;
-					} else if (response.equals("N")) {
+					} else if (response.equals("n")) {
 						primaryOwner = false;
 						goodValue = true;
 					} else {
@@ -123,7 +123,7 @@ public class VehicleRegistration
 					insertPerson(ownerId);
 				}
 
-			} else if (response.equals("N")) {
+			} else if (response.equals("n")) {
 				break;
 			} else {
 				System.out.print("Invalid option, select [Y]es or [N]o\n");

@@ -51,7 +51,6 @@ public class Adapter
 			builder.append(")");
 
 			String createString = builder.toString();
-			System.out.println(createString);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
@@ -88,9 +87,9 @@ public class Adapter
 			builder.deleteCharAt(builder.length() -1);
 			builder.append(" from ");
 			builder.append(table);
-			builder.append(" where ");
+			builder.append(" where lower(");
 			builder.append(colName);
-			builder.append("=");
+			builder.append(")=");
 			builder.append(value);
 
 			String query = builder.toString();
@@ -121,7 +120,7 @@ public class Adapter
 			return obj;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
-		} 
+		}
 	}
 
 	ArrayList<Object> searchTableAnyKey(Connection conn, Object obj, String colName, Object value) {
@@ -142,9 +141,9 @@ public class Adapter
 			builder.deleteCharAt(builder.length() -1);
 			builder.append(" from ");
 			builder.append(table);
-			builder.append(" where ");
+			builder.append(" where lower(");
 			builder.append(colName);
-			builder.append("='");
+			builder.append(")='");
 			builder.append(value);
 			builder.append("'");
 

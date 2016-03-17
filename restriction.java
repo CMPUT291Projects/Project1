@@ -1,7 +1,7 @@
 public class restriction
 {
 	public String licence_no;
-	public int r_id;
+	public Integer r_id;
 
 	public restriction(String licence_no, int r_id)
 	{

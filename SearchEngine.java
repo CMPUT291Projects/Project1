@@ -26,21 +26,21 @@ public class SearchEngine
 							"To search for a vehicle's serial number enter 'V'\n" +
 							"To return to the main menu press 'M'\n");
 			Console co = System.console();
-			String action = co.readLine();
+			String action = co.readLine().toLowerCase();
 			System.out.println();
-			if (action.equals("N")) {
+			if (action.equals("n")) {
 				searchForName();
 			}
-			else if (action.equals("L")) {
+			else if (action.equals("l")) {
 				searchforLicenceNo();
 			}
-			else if (action.equals("S")) {
+			else if (action.equals("s")) {
 				searchForSIN();
 			}
-			else if (action.equals("V")) {
+			else if (action.equals("v")) {
 				searchForSerialNo();
 			}
-			else if (action.equals("M")) {
+			else if (action.equals("m")) {
 				return;
 			}
 			else {
@@ -54,7 +54,7 @@ public class SearchEngine
 		Adapter a = new Adapter();
 
 		System.out.print("Enter person's full name:  ");
-		String name = co.readLine();
+		String name = co.readLine().toLowerCase();
 		people p = new people();
 		ArrayList<Object> nameResults = new ArrayList<Object>();
 		nameResults = a.searchTableAnyKey(conn, p, "name", name);

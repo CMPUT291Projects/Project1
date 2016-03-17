@@ -23,7 +23,7 @@ public class AutoTransaction
 			System.out.println("Create new auto sale transaction:");
 			// Create seller
 			System.out.print("Seller SIN:  ");
-			String sin = co.readLine();
+			String sin = co.readLine().toLowerCase();
 
 			people p = new people(sin);
 			Adapter a = new Adapter();
@@ -31,8 +31,8 @@ public class AutoTransaction
 			if (seller == null) {
 				System.err.println("Seller does not exist in system");
 				System.out.print("Do you want to insert a new person with this SIN? (Y/N)  ");
-				String response = co.readLine();
-				if (response.equals("Y")) {
+				String response = co.readLine().toLowerCase();
+				if (response.equals("y")) {
 					insertPerson(sin);
 					seller = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 				} else {
@@ -42,15 +42,15 @@ public class AutoTransaction
 
 			// Create buyer
 			System.out.print("Buyer SIN:  ");
-			sin = co.readLine();
+			sin = co.readLine().toLowerCase();
 
 			p = new people(sin);
 			people buyer = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 			if (buyer == null) {
 				System.err.println("Buyer does not exist in system");
 				System.out.print("Do you want to insert a new person with this SIN? (Y/N)  ");
-				String response = co.readLine();
-				if (response.equals("Y")) {
+				String response = co.readLine().toLowerCase();
+				if (response.equals("y")) {
 					insertPerson(sin);
 					buyer = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 				} else {
@@ -59,7 +59,7 @@ public class AutoTransaction
 			}
 			// Create vehicle
 			System.out.print("Vehicle serial number:  ");
-			String sn = co.readLine();
+			String sn = co.readLine().toLowerCase();
 
 			vehicle v = new vehicle(sn);
 			vehicle auto = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", sn);
@@ -162,7 +162,7 @@ public class AutoTransaction
 		String gender = null;
 		while (!goodValue) {
 			System.out.print("Gender: (m, f)  ");
-			gender = co.readLine();
+			gender = co.readLine().toLowerCase();
 			if (!gender.equals("m") && !gender.equals("f")) {
 				System.out.println("Gender must be 'm' or 'f', try again");
 			} else {

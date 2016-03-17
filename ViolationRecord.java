@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 /*
 CREATE TABLE ticket (
   ticket_no     int,
-  violator_no   CHAR(15),  
+  violator_no   CHAR(15),
   vehicle_id    CHAR(15),
   office_no     CHAR(15),
   vtype        char(10),
@@ -21,7 +21,7 @@ CREATE TABLE ticket (
   FOREIGN KEY (office_no) REFERENCES people ON DELETE CASCADE
 );*/
 
-public class ViolationRecord 
+public class ViolationRecord
 {
 	private Connection conn;
 
@@ -46,10 +46,10 @@ public class ViolationRecord
 				System.out.print(String.format("%s=%f  ", type.vtype.trim(), type.fine));
 			}
 			System.out.print(")\n");
-			input_type = co.readLine();
+			input_type = co.readLine().toLowerCase();
 			input_type = input_type.replace("\n", "");
 			for (ticket_type type : types) {
-				if (type.vtype.trim().equals(input_type)) {
+				if (type.vtype.trim().toLowerCase().equals(input_type)) {
 					goodValue = true;
 				}
 			}
@@ -68,7 +68,7 @@ public class ViolationRecord
 
 		Adapter a = new Adapter();
 		a.toSql(conn, tkt);
-		
+
 
 	}
 
@@ -78,7 +78,7 @@ public class ViolationRecord
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			String query = "select vtype, fine from ticket_type";
 			ResultSet rs = stmt.executeQuery(query);
-			
+
 			while(rs.next()) {
 				ticket_type vt = new ticket_type(rs.getString("vtype"), rs.getFloat("fine"));
 				types.add(vt);
