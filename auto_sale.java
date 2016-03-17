@@ -19,4 +19,14 @@ public class auto_sale
 		this.s_date = s_date;
 		this.price = price;
 	}
+
+	public auto_sale()
+	{
+		this.transaction_id = 0;
+		this.seller_id = " ";
+		this.buyer_id = " ";
+		this.vehicle_id = " ";
+		this.s_date = null;
+		this.price = new Float(0);
+	}
 }

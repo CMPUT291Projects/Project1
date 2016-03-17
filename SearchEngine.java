@@ -183,6 +183,46 @@ public class SearchEngine
 	}
 
 	private void searchForSerialNo() {
+		Console co = System.console();
+		Adapter a = new Adapter();
 
+		System.out.print("Enter vehicle's serial number:  ");
+		String sn = co.readLine();
+		vehicle v = new vehicle();
+		v = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", sn);
+
+		if (v == null) {
+			System.err.println("No vehicle with that serial number exists in system");
+			return;
+		}
+
+		// Get violation statistics
+		ticket k = new ticket();
+		ArrayList<Object> ticResults = new ArrayList<Object>();
+		ticResults = a.searchTableAnyKey(conn, k, "vehicle_id", v.serial_no);
+		if (ticResults == null) {
+			System.out.println("No recorded violations");
+		} else {
+			System.out.print("Number of recorded violations:  "); System.out.println(ticResults.size());
+		}
+
+		// Get sale statistics
+		auto_sale s = new auto_sale();
+		ArrayList<Object> saleResults = new ArrayList<Object>();
+		saleResults = a.searchTableAnyKey(conn, s, "vehicle_id", v.serial_no);
+		if (saleResults == null) {
+			System.out.println("No recorded sales");
+		} else {
+			System.out.print("Number of recorded sales:  "); System.out.println(saleResults.size());
+			Float avgPrice = new Float(0);
+			for (Object sr : saleResults) {
+				auto_sale r = (auto_sale) sr;
+				avgPrice +=  r.price;
+			}
+			avgPrice /= saleResults.size();
+			System.out.print("Average sale price:  "); System.out.println(avgPrice);
+		}
+		System.out.println();
+		return;
 	}
 }

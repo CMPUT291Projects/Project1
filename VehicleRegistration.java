@@ -105,7 +105,7 @@ public class VehicleRegistration
 				while (!goodValue) {
 					System.out.print("Is primary owner? (Y/N)\n");
 					response = co.readLine();
-					
+
 					if (response.equals("Y")) {
 						primaryOwner = true;
 						goodValue = true;
@@ -122,7 +122,7 @@ public class VehicleRegistration
 					System.out.print("It appears that person does not exist, we will enter that data now\n");
 					insertPerson(ownerId);
 				}
-				
+
 			} else if (response.equals("N")) {
 				break;
 			} else {
@@ -134,14 +134,14 @@ public class VehicleRegistration
 	private void insertPerson(String SIN)
 	{
 		Console co = System.console();
-		System.out.print("Name?");
+		System.out.print("Name:  ");
 		String name = co.readLine();
-		
+
 		Float height = null;
 		boolean goodValue = false;
 		while (!goodValue) {
 			try {
-				System.out.print("Height? (ex 113.42)\n");
+				System.out.print("Height: (ex 113.42)  ");
 				height = Float.parseFloat(co.readLine());
 				goodValue = true;
 			} catch (NumberFormatException ex) {
@@ -153,7 +153,7 @@ public class VehicleRegistration
 		goodValue = false;
 		while (!goodValue) {
 			try {
-				System.out.print("Weight? (ex 113.42)\n");
+				System.out.print("Weight: (ex 113.42)  ");
 				weight = Float.parseFloat(co.readLine());
 				goodValue = true;
 			} catch (NumberFormatException ex) {
@@ -161,47 +161,47 @@ public class VehicleRegistration
 			}
 		}
 
-		System.out.print("Eye Color?\n");
+		System.out.print("Eye Color:  ");
 		String eyeColor = co.readLine();
 
-		System.out.print("Hair Color?\n");
+		System.out.print("Hair Color:  ");
 		String hairColor = co.readLine();
 
-		System.out.print("Address?\n");
+		System.out.print("Address: ");
 		String addr = co.readLine();
 
 		goodValue = false;
 		String gender = null;
 		while (!goodValue) {
-			System.out.print("gender? (m, f)\n");
+			System.out.print("Gender: (m, f)  ");
 			gender = co.readLine();
 			if (!gender.equals("m") && !gender.equals("f")) {
-				System.out.print("gender must be 'm' or 'f', try again");
+				System.out.println("Gender must be 'm' or 'f', try again");
 			} else {
 				goodValue = true;
 			}
 		}
-		
+
 		goodValue = false;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date birthday = null;
 		while (!goodValue) {
-			System.out.print("birthday? (yyyy-MM-dd)\n");
+			System.out.print("Birthday: (yyyy-MM-dd)  ");
 			try {
 				birthday = format.parse(co.readLine());
 				goodValue = true;
 			} catch (Exception ex) {
-				System.out.print("invalid birthday format, use 'yyyy-MM-dd'\n");
+				System.out.println("Invalid birthday format, use 'yyyy-MM-dd'");
 			}
 		}
 
-	 	people p = new people(SIN, name, height, weight, eyeColor, 
+	 	people p = new people(SIN, name, height, weight, eyeColor,
 					hairColor, addr, gender, birthday);
 		Adapter a = new Adapter();
 		a.toSql(conn, p);
 	}
 
-	
+
 	private boolean personExists(String sin)
 	{
 		try {
@@ -241,7 +241,7 @@ public class VehicleRegistration
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			String query = "select type_id, type from vehicle_type";
 			ResultSet rs = stmt.executeQuery(query);
-			
+
 			while(rs.next()) {
 				vehicle_type vt = new vehicle_type(rs.getInt("type_id"), rs.getString("type"));
 				types.add(vt);
@@ -250,5 +250,5 @@ public class VehicleRegistration
 			throw new RuntimeException(ex);
 		}
 		return types;
-	}	
+	}
 }

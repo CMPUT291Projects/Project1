@@ -10,4 +10,11 @@ public class owner
 		this.vehicle_id = vehicle_id;
 		this.is_primary_owner = is_primary_owner;
 	}
+
+	public owner()
+	{
+		this.owner_id = " ";
+		this.vehicle_id = " ";
+		this.is_primary_owner = " ";
+	}
 }
