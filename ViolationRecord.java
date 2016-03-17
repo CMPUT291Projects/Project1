@@ -31,17 +31,12 @@ public class ViolationRecord
 	}
 
 	public void run() {
+		ConsoleParser parser = new ConsoleParser();
+		String sin = parser.getString("violator sin\n");
+		String vid = parser.getString("vehicle id\n");
+		String onum = parser.getString("officer number\n");
+
 		Console co = System.console();
-		System.out.print("violator sin\n");
-		String sin = co.readLine();
-		
-		System.out.print("vehicle id\n");
-		String vid = co.readLine();
-
-		System.out.print("officer number\n");
-		String onum = co.readLine();
-
-
 		List<ticket_type> types = getTicketTypes(conn);
 		boolean goodValue = false;
 		String input_type = null;
@@ -54,7 +49,7 @@ public class ViolationRecord
 			input_type = co.readLine();
 			input_type = input_type.replace("\n", "");
 			for (ticket_type type : types) {
-				if (type.vtype.equals(input_type)) {
+				if (type.vtype.trim().equals(input_type)) {
 					goodValue = true;
 				}
 			}
@@ -63,48 +58,18 @@ public class ViolationRecord
 			}
 		}
 
-		java.util.Date vdate = getDate("violation date? (yyyy-MM-dd)\n");
+		java.util.Date vdate = parser.getDate("violation date? (yyyy-MM-dd)\n");
+		String place = parser.getString("violation place\n");
+		String desc = parser.getString("violation description\n");
 
-		System.out.print("violation place\n");
-		String place = co.readLine();
+		Integer id = new Random().nextInt();
 
-		System.out.print("violation description\n");
-		String desc = co.readLine();
+		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);
+
+		Adapter a = new Adapter();
+		a.toSql(conn, tkt);
 		
 
-	}
-
-	java.util.Date getDate(String prompt) {
-		Console co = System.console();
-		boolean goodValue = false;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date myDate = null;
-		while (!goodValue) {
-			System.out.print(prompt);
-			try {
-				myDate = format.parse(co.readLine());
-				goodValue = true;
-			} catch (Exception ex) {
-				System.out.print("invalid date format, use 'yyyy-MM-dd'\n");
-			}
-		}
-		return myDate;
-	}
-
-	Integer getInt(String prompt) {
-		Console co = System.console();
-		boolean goodValue = false;
-		Integer value = null;
-		while(!goodValue) {
-			try {
-				System.out.print(prompt);
-				value = Integer.parseInt(co.readLine());
-				goodValue = true;
-			} catch (NumberFormatException ex) {
-				System.out.print("Invalid Integer Format\n");
-			}
-		}
-		return value;
 	}
 
 	List<ticket_type> getTicketTypes(Connection conn) {

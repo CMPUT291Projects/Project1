@@ -55,7 +55,10 @@ public class Adapter
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			stmt.executeUpdate(createString);
-		} catch (Exception ex) {
+		} catch (SQLException ex) {
+			System.out.println(
+				String.format("Unable to process the transaction because of a SQL exception: %s\n", ex.getMessage()));
+		} catch (IllegalAccessException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -118,7 +121,7 @@ public class Adapter
 			return obj;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
-		}
+		} 
 	}
 
 	ArrayList<Object> searchTableAnyKey(Connection conn, Object obj, String colName, Object value) {
