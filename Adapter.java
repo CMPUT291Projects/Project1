@@ -90,7 +90,13 @@ public class Adapter
 			builder.append(" where lower(");
 			builder.append(colName);
 			builder.append(")=");
+			if (value instanceof String) {
+				builder.append("'");
+			}
 			builder.append(value);
+			if (value instanceof String) {
+				builder.append("'");
+			}
 
 			String query = builder.toString();
 
