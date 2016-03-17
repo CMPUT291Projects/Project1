@@ -44,6 +44,7 @@ public class ViolationRecord
 				break;
 			}
 		}
+
 		String vid = null;
 		while (true) {
 			vid = parser.getString("vehicle id\n");
@@ -55,7 +56,19 @@ public class ViolationRecord
 				break;
 			}
 		}
-		String onum = parser.getString("officer number\n");
+
+		String onum = null;
+		while (true) {
+			onum = parser.getString("officer number\n");
+			people p = new people();
+			people registered_person = (people) a.searchTablePrimaryKey(conn, p, "sin", onum);
+			if(registered_person == null) {
+				System.out.print("that person does not, exist, try again with a different sin\n");
+			} else {
+				break;
+			}
+		}
+
 
 		Console co = System.console();
 		List<ticket_type> types = getTicketTypes(conn);
@@ -83,8 +96,16 @@ public class ViolationRecord
 		String place = parser.getString("violation place\n");
 		String desc = parser.getString("violation description\n");
 
-		//TODO(need to check if this is in table or not)
-		Integer id = new Random().nextInt();
+		//genereate an Id not in the table yet
+		Integer id = null;
+		while (true) {
+			id = new Random().nextInt();
+			ticket t = new ticket();
+			ticket registered_ticket = (ticket) a.searchTablePrimaryKey(conn, t, "ticket_no", id);
+			if (registered_ticket == null) {
+				break; //no ticket with same id in table
+			}
+		}
 
 		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);
 		a.toSql(conn, tkt);
