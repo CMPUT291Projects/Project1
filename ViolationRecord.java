@@ -32,6 +32,8 @@ public class ViolationRecord
 
 	public void run() {
 		ConsoleParser parser = new ConsoleParser();
+
+		//TODO(what to do on failure? either loop and ask again or exit)
 		String sin = parser.getString("violator sin\n");
 		String vid = parser.getString("vehicle id\n");
 		String onum = parser.getString("officer number\n");
@@ -62,6 +64,7 @@ public class ViolationRecord
 		String place = parser.getString("violation place\n");
 		String desc = parser.getString("violation description\n");
 
+		//TODO(need to check if this is in table or not)
 		Integer id = new Random().nextInt();
 
 		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);

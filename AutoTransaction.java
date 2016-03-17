@@ -26,7 +26,9 @@ public class AutoTransaction
 
 			people p = new people(sin);
 			Adapter a = new Adapter();
+
 			people seller = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
+			//TODO(what to do on failure? either loop and ask again or exit)
 			if (seller == null) {
 				System.err.println("Seller does not exist in system");
 			}
@@ -35,6 +37,7 @@ public class AutoTransaction
 			sin = co.readLine();
 
 			p = new people(sin);
+			//TODO(what to do on failure? either loop and ask again or exit)
 			people buyer = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 			if (buyer == null) {
 				System.err.println("Buyer does not exist in system");
@@ -44,6 +47,7 @@ public class AutoTransaction
 			String serial_no = co.readLine();
 
 			vehicle v = new vehicle(serial_no);
+			//TODO(what to do on failure? either loop and ask again or exit)
 			vehicle auto = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", serial_no);
 			if (auto == null) {
 				System.err.println("Vehicle does not exist in system");
@@ -60,7 +64,10 @@ public class AutoTransaction
 			// Create new objects
 			owner newOwner = new owner(buyer.sin, auto.serial_no, "y");
 			a.toSql(conn, newOwner);
+
+			//TODO(need to check if this is in table already or not)
 			Integer trans_id = new Random().nextInt();
+
 			// Taky, http://stackoverflow.com/questions/14558289/java-insert-into-a-table-datetime-data, 2016-03-13
 			//Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			Date timestamp = new Date();
