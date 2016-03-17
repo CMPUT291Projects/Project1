@@ -54,7 +54,7 @@ public class ViolationRecord
 			input_type = co.readLine();
 			input_type = input_type.replace("\n", "");
 			for (ticket_type type : types) {
-				if (type.vtype.equals(input_type)) {
+				if (type.vtype.trim().equals(input_type)) {
 					goodValue = true;
 				}
 			}
@@ -70,6 +70,12 @@ public class ViolationRecord
 
 		System.out.print("violation description\n");
 		String desc = co.readLine();
+		Integer id = new Random().nextInt();
+
+		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);
+
+		Adapter a = new Adapter();
+		a.toSql(conn, tkt);
 		
 
 	}

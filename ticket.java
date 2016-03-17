@@ -11,7 +11,7 @@ public class ticket
 	public String place;
 	public String descriptions;
 
-	public ticket(Integer ticket_no, String violator_no, String office_no,
+	public ticket(Integer ticket_no, String violator_no, String vehicle_id, String office_no,
 			String vtype, Date vdate, String place, String descriptions)
 	{
 		this.ticket_no = ticket_no;

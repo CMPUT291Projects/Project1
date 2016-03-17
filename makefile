@@ -4,7 +4,7 @@ main:
 	javac *.java
 
 run: main
-	bash -c "export CLASSPATH=$CLASSPATH\:.\:/oracle/jdbc/lib/ojdbc5.jar"
+	export CLASSPATH=$CLASSPATH\:.\:/oracle/jdbc/lib/ojdbc5.jar
 	java Main
 
 clean: 
