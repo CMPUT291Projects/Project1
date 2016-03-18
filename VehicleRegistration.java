@@ -102,17 +102,17 @@ public class VehicleRegistration
 				String ownerId = co.readLine();
 
 				//get if primary owner
-				boolean primaryOwner = false;
+				String primaryOwner = null;
 				boolean goodValue = false;
 				while (!goodValue) {
 					System.out.print("Is primary owner? (Y/N)\n");
 					response = co.readLine().toLowerCase();
 
 					if (response.equals("y")) {
-						primaryOwner = true;
+						primaryOwner = "y";
 						goodValue = true;
 					} else if (response.equals("n")) {
-						primaryOwner = false;
+						primaryOwner = "n";
 						goodValue = true;
 					} else {
 						goodValue = false;
@@ -120,10 +120,14 @@ public class VehicleRegistration
 					}
 				}
 
+
 				if (!personExists(ownerId)) {
 					System.out.print("It appears that person does not exist, we will enter that data now\n");
 					insertPerson(ownerId);
 				}
+				owner o = new owner(ownerId, serial_no, primaryOwner);
+				Adapter a = new Adapter();
+				a.toSql(conn, o);
 
 			} else if (response.equals("n")) {
 				break;
@@ -131,6 +135,7 @@ public class VehicleRegistration
 				System.out.print("Invalid option, select [Y]es or [N]o\n");
 			}
 		}
+		
 	}
 
 	protected void insertPerson(String SIN)
