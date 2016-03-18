@@ -114,8 +114,6 @@ public class LicenceRegistration
 	private boolean idExists(String id, Connection conn)
 	{
 		try {
-			System.out.println(conn);
-			System.out.println(id);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			String query = String.format("select sin from drive_licence where sin=%s", id);
 			ResultSet rs = stmt.executeQuery(query);
