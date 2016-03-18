@@ -29,7 +29,7 @@ public class LicenceRegistration
 		do {
 			System.out.print("Insert SIN.\n");
 			temp_sin = co.readLine();
-			if(!idExists(temp_sin, conn)) {
+			if(!idExists(temp_sin, this.conn)) {
 				sin = temp_sin;
 			} else {
 				System.out.print("SIN already exists, try again\n");
