@@ -32,9 +32,13 @@ public class LicenceRegistration
 			if(!idExists(temp_sin, this.conn)) {
 				sin = temp_sin;
 			} else {
-				System.out.print("SIN already exists, try again\n");
+				System.out.print("Person with this SIN already has licence, try again\n");
 			}
 		} while (sin == null);
+
+		if(!personExists(sin)){
+			insertPerson(sin);
+		}
 
 		System.out.print("Insert classType.\n");
 		String classType = co.readLine();
@@ -121,5 +125,95 @@ public class LicenceRegistration
 		} catch (SQLException ex) {
 			throw new RuntimeException(ex);
 		}
+	}
+
+	private boolean personExists(String sin)
+	{
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			String query = String.format("select sin from people where sin=%s", sin);
+			ResultSet rs = stmt.executeQuery(query);
+			if(!rs.next()) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	private void insertPerson(String SIN)
+	{
+		Console co = System.console();
+		System.out.print("Name:\n");
+		String name = co.readLine();
+
+		Float height = null;
+		boolean goodValue = false;
+		while (!goodValue) {
+			try {
+				System.out.print("Height: (ex 113.42)\n");
+				String input = co.readLine();
+				if (!input.matches("[\\d][\\d][\\d][.][\\d][\\d]")) throw new NumberFormatException();
+				height = Float.parseFloat(input);
+				goodValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
+			}
+		}
+
+		Float weight = null;
+		goodValue = false;
+		while (!goodValue) {
+			try {
+				System.out.print("Weight: (ex 113.42)\n");
+				String input = co.readLine();
+				if (!input.matches("[\\d][\\d][\\d][.][\\d][\\d]")) throw new NumberFormatException();
+				weight = Float.parseFloat(input);
+				goodValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
+			}
+		}
+
+		System.out.print("Eye Color:  ");
+		String eyeColor = co.readLine();
+
+		System.out.print("Hair Color:  ");
+		String hairColor = co.readLine();
+
+		System.out.print("Address: ");
+		String addr = co.readLine();
+
+		goodValue = false;
+		String gender = null;
+		while (!goodValue) {
+			System.out.print("Gender: (m, f)  ");
+			gender = co.readLine();
+			if (!gender.equals("m") && !gender.equals("f")) {
+				System.out.println("Gender must be 'm' or 'f', try again");
+			} else {
+				goodValue = true;
+			}
+		}
+
+		goodValue = false;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date birthday = null;
+		while (!goodValue) {
+			System.out.print("Birthday: (yyyy-MM-dd)  ");
+			try {
+				birthday = format.parse(co.readLine());
+				goodValue = true;
+			} catch (Exception ex) {
+				System.out.println("Invalid birthday format, use 'yyyy-MM-dd'");
+			}
+		}
+
+	 	people p = new people(SIN, name, height, weight, eyeColor,
+					hairColor, addr, gender, birthday);
+		Adapter a = new Adapter();
+		a.toSql(conn, p);
 	}
 }
