@@ -2,8 +2,17 @@ import java.util.*;
 import java.sql.*; // Java package for accessing Oracle
 import java.io.*; // Java package includes Console for getting password from user and printing to screen
 
+/*
+	This class launches the database application.  The user is prompted to enter their
+	login credentials and these are authenticated.  Then, the user views the main menu
+	where they can select which action they want to perform.
+*/
 public class Main
 {
+	/*
+		Run the database application.  Log the user into the database and then prompt
+		them to select which action they want to perform.
+	*/
 	public static void main(String[] args) {
 		Connection cnxn;
 		cnxn = loginToDataBase();
@@ -61,6 +70,9 @@ public class Main
 		}
 	}
 
+	/*
+		Authenticate the user's login information and connect them to the database.
+	*/
 	private static Connection loginToDataBase() {
 		// get username
 		System.out.print("Username: ");

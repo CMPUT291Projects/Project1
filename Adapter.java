@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.sql.Blob;
 import java.io.InputStream;
 
+/*
+	Class for interfacing between the database and the program.  Can convert objects
+	to SQL and insert them into the database, and can take results from querying the database
+	and convert them into Java objects.
+*/
 public class Adapter
 {
 	void toSql(Connection conn, Object obj) {
@@ -24,7 +29,7 @@ public class Adapter
 			for (Field field : fields) {
 				if(field.getName().equals("classType")){
 					builder.append("class");
-				} else {	
+				} else {
 					builder.append(field.getName());
 				}
 				builder.append(",");
@@ -70,9 +75,8 @@ public class Adapter
 			}
 			builder.deleteCharAt(builder.length() -1);
 			builder.append(")");
-			
+
 			String createString = builder.toString();
-			System.out.println(createString);
 			// Blob requires a prepared statement so that we can load the input stream into sql.
 			if(isThereBlob){
 				PreparedStatement pstmt = conn.prepareStatement(createString);
@@ -94,7 +98,7 @@ public class Adapter
 	   Searches database for the given value of primary key.  The column name of the
 	   primary key should be given too.  This function assumes a primary key column
 	   is being used, and so only returns only one result (if a non-unique value is
-	   givne to this funciton it will return the last result found).
+	   given to this funciton it will return the last result found).
 	*/
 	Object searchTablePrimaryKey(Connection conn, Object obj, String colName, Object value) {
 		try {
@@ -127,7 +131,7 @@ public class Adapter
 			}
 
 			String query = builder.toString();
-			
+
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
@@ -157,6 +161,11 @@ public class Adapter
 		}
 	}
 
+	/*
+	   Searches database for the given value of a non-unique key.  The column name of
+	   the key should be given too.  This function will return all results found
+	   in an arraylist.
+	*/
 	ArrayList<Object> searchTableAnyKey(Connection conn, Object obj, String colName, Object value) {
 		try {
 			String table = obj.getClass().getName();
