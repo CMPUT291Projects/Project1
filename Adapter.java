@@ -38,7 +38,6 @@ public class Adapter
 				} else if (isFloat) {
 					DecimalFormat df = new DecimalFormat("00.000");
 					Float flt = (Float) field.get(obj);
-					System.out.print(String.format("float value: %f, truncated value %s\n", flt, df.format(flt)));
 					builder.append(df.format(flt));
 				}  else {
 					builder.append(field.get(obj).toString());
@@ -100,7 +99,7 @@ public class Adapter
 			}
 
 			String query = builder.toString();
-
+			
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
