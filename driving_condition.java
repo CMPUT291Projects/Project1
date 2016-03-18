@@ -1,6 +1,6 @@
 public class driving_condition {
-	Integer c_id;
-	String description;
+	public Integer c_id;
+	public String description;
 
 	public driving_condition(int c_id, String description){
 		this.c_id = c_id;

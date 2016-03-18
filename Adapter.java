@@ -99,7 +99,7 @@ public class Adapter
 			}
 
 			String query = builder.toString();
-			System.out.println(query);
+			
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
 			ResultSet rs = stmt.executeQuery(query);
