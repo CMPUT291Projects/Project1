@@ -36,7 +36,7 @@ public class Adapter
 					Date date = (Date) field.get(obj);
 					builder.append(format.format(date));
 				} else if (isFloat) {
-					DecimalFormat df = new DecimalFormat("##.###");
+					DecimalFormat df = new DecimalFormat("00.000");
 					Float flt = (Float) field.get(obj);
 					builder.append(df.format(flt));
 				}  else {
@@ -90,7 +90,13 @@ public class Adapter
 			builder.append(" where lower(");
 			builder.append(colName);
 			builder.append(")=");
+			if (value instanceof String) {
+				builder.append("'");
+			}
 			builder.append(value);
+			if (value instanceof String) {
+				builder.append("'");
+			}
 
 			String query = builder.toString();
 			System.out.println(query);

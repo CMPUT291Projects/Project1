@@ -27,6 +27,7 @@ public class AutoTransaction
 
 			people p = new people(sin);
 			Adapter a = new Adapter();
+
 			people seller = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 			if (seller == null) {
 				System.err.println("Seller does not exist in system");
@@ -60,7 +61,6 @@ public class AutoTransaction
 			// Create vehicle
 			System.out.print("Vehicle serial number:  ");
 			String sn = co.readLine().toLowerCase();
-
 			vehicle v = new vehicle(sn);
 			vehicle auto = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", sn);
 			if (auto == null) {
@@ -105,7 +105,10 @@ public class AutoTransaction
 			// Create new objects - primary/secondary ownership is inherited
 			owner newOwner = new owner(buyer.sin, auto.serial_no, formerOwner.is_primary_owner);
 			a.toSql(conn, newOwner);
+
+			//TODO(need to check if this is in table already or not)
 			Integer trans_id = new Random().nextInt();
+
 			// Taky, http://stackoverflow.com/questions/14558289/java-insert-into-a-table-datetime-data, 2016-03-13
 			//Timestamp timestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
 			Date timestamp = new Date();

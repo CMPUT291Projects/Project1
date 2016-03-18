@@ -3,6 +3,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 
 /*
 CREATE TABLE ticket (
@@ -32,18 +33,53 @@ public class ViolationRecord
 
 	public void run() {
 		ConsoleParser parser = new ConsoleParser();
-		String sin = parser.getString("violator sin\n");
-		String vid = parser.getString("vehicle id\n");
-		String onum = parser.getString("officer number\n");
+		Adapter a = new Adapter();
+		String sin = null;
+		while (true) {
+			sin = parser.getString("violator sin\n");
+			people p = new people();
+			people registered_person = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
+			if(registered_person == null) {
+				System.out.print("that person does not, exist, try again with a different sin\n");
+			} else {
+				break;
+			}
+		}
+
+		String vid = null;
+		while (true) {
+			vid = parser.getString("vehicle id\n");
+			vehicle v = new vehicle();
+			vehicle registered_vehicle = (vehicle) a.searchTablePrimaryKey(conn, v, "serial_no", vid);
+			if(registered_vehicle == null) {
+				System.out.print("that vehicle does not, exist, try again with a different vehicle id\n");
+			} else {
+				break;
+			}
+		}
+
+		String onum = null;
+		while (true) {
+			onum = parser.getString("officer number\n");
+			people p = new people();
+			people registered_person = (people) a.searchTablePrimaryKey(conn, p, "sin", onum);
+			if(registered_person == null) {
+				System.out.print("that person does not, exist, try again with a different sin\n");
+			} else {
+				break;
+			}
+		}
+
 
 		Console co = System.console();
 		List<ticket_type> types = getTicketTypes(conn);
 		boolean goodValue = false;
 		String input_type = null;
+		DecimalFormat df = new DecimalFormat("00.000");
 		while(!goodValue) {
 			System.out.print("violation type (  ");
 			for (ticket_type type : types) {
-				System.out.print(String.format("%s=%f  ", type.vtype.trim(), type.fine));
+				System.out.print(String.format("%s=%s  ", type.vtype.trim(), df.format(type.fine)));
 			}
 			System.out.print(")\n");
 			input_type = co.readLine().toLowerCase();
@@ -62,11 +98,18 @@ public class ViolationRecord
 		String place = parser.getString("violation place\n");
 		String desc = parser.getString("violation description\n");
 
-		Integer id = new Random().nextInt();
+		//genereate an Id not in the table yet
+		Integer id = null;
+		while (true) {
+			id = new Random().nextInt();
+			ticket t = new ticket();
+			ticket registered_ticket = (ticket) a.searchTablePrimaryKey(conn, t, "ticket_no", id);
+			if (registered_ticket == null) {
+				break; //no ticket with same id in table
+			}
+		}
 
 		ticket tkt = new ticket(id, sin, vid, onum, input_type, vdate, place, desc);
-
-		Adapter a = new Adapter();
 		a.toSql(conn, tkt);
 
 

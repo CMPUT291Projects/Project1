@@ -43,7 +43,9 @@ public class VehicleRegistration
 		while(!goodValue) {
 			try {
 				System.out.print("Vehicle year\n");
-				year = Integer.parseInt(co.readLine());
+				String input = co.readLine();
+				if(!input.matches("[\\d][\\d][\\d][\\d]")) throw new NumberFormatException();
+				year = Integer.parseInt(input);
 				goodValue = true;
 			} catch (NumberFormatException ex) {
 				System.out.print("Invalid year format, try again\n");
@@ -134,15 +136,17 @@ public class VehicleRegistration
 	private void insertPerson(String SIN)
 	{
 		Console co = System.console();
-		System.out.print("Name:  ");
+		System.out.print("Name:\n");
 		String name = co.readLine();
 
 		Float height = null;
 		boolean goodValue = false;
 		while (!goodValue) {
 			try {
-				System.out.print("Height: (ex 113.42)  ");
-				height = Float.parseFloat(co.readLine());
+				System.out.print("Height: (ex 113.42)\n");
+				String input = co.readLine();
+				if (!input.matches("[\\d][\\d][\\d][.][\\d][\\d]")) throw new NumberFormatException();
+				height = Float.parseFloat(input);
 				goodValue = true;
 			} catch (NumberFormatException ex) {
 				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
@@ -153,8 +157,10 @@ public class VehicleRegistration
 		goodValue = false;
 		while (!goodValue) {
 			try {
-				System.out.print("Weight: (ex 113.42)  ");
-				weight = Float.parseFloat(co.readLine());
+				System.out.print("Weight: (ex 113.42)\n");
+				String input = co.readLine();
+				if (!input.matches("[\\d][\\d][\\d][.][\\d][\\d]")) throw new NumberFormatException();
+				weight = Float.parseFloat(input);
 				goodValue = true;
 			} catch (NumberFormatException ex) {
 				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
