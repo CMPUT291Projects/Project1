@@ -8,7 +8,9 @@ import javax.sql.rowset.serial.SerialException;
 import java.text.ParseException;
 import java.lang.NullPointerException;
 
-
+/*
+	Class for the subprogram to register a new driver licence into the system.
+*/
 public class LicenceRegistration
 {
 	private Connection conn;
@@ -18,8 +20,16 @@ public class LicenceRegistration
 		this.conn = conn;
 	}
 
+	/*
+		Run the subprogram to enter a new licence into the system.  Done by
+		requesting user input to populate the object’s fields.  At each step the
+		values entered by the user are validated to ensure the user has input
+		reasonable values (i.e. of the correct data type and format).  Once the
+		appropriate values have been entered by the user the new drive_licence
+		object is inserted into the database using the Adapter class’ toSql function.
+	*/
 	public void run() {
-		
+
 		System.out.print("Insert licence no.\n");
 		Console co = System.console();
 		String licence_no = co.readLine();
@@ -128,6 +138,7 @@ public class LicenceRegistration
 		}
 	}
 
+	// Check that there is a person with the entered SIN in the database
 	private boolean personExists(String sin)
 	{
 		try {
@@ -144,6 +155,15 @@ public class LicenceRegistration
 		}
 	}
 
+	/*
+		Helper method used to create a new person in the database if the SIN of a
+		person not existing in the database is entered as the owner of the new
+		vehicle.  It does this by creating a new person object and requesting user
+		input to populate the person’s fields.  At each step the values entered
+		by the user are validated to ensure the user has input reasonable values.
+		Once the appropriate values have been entered by the user the person object
+		is inserted into the database using the Adapter class’ toSql function.
+	*/
 	private void insertPerson(String SIN)
 	{
 		Console co = System.console();

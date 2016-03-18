@@ -2,6 +2,10 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.io.Console;
 
+/*
+	Class for taking input entered by the user in the console, and ensuring it is
+	in the correct type and format.
+*/
 public class ConsoleParser
 {
 	Console co;
@@ -25,6 +29,10 @@ public class ConsoleParser
 		return value;
 	}
 
+	/*
+		Get date values from the user.  Ensure they are in the correct format for
+		entering into the database.
+	*/
 	public Date getDate(String prompt) {
 		boolean goodValue = false;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

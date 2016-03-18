@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.lang.reflect.Field;
 
+/*
+	Class the subprogram to enter a new auto sale into the database.
+*/
 public class AutoTransaction
 {
 	private Connection conn;
@@ -15,6 +18,17 @@ public class AutoTransaction
 		this.conn = conn;
 	}
 
+	/*
+		Enter a new auto transaction in the database.  Requests user input to populate
+		the objects’ fields.  At each step the values entered by the user are validated
+		to ensure the user has input reasonable values (i.e. of the correct data type
+		and format).  The user must enter the SIN of the seller and the buyer.  If
+		either one of these people do not exist in the database the user can chose
+		to enter them using the insertPerson method from the VehicleRegistration
+		class.  Once the appropriate values have been entered by the user, the
+		previous owner is deleted from the owner table, and the new owner and auto_sale
+		objects are inserted into the database using the Adapter class’ toSql function.
+	*/
 	public void run() {
 		try {
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

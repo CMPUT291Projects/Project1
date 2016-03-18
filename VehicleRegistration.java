@@ -3,6 +3,9 @@ import java.sql.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 
+/*
+	Class for running the subprogram to register a new vehicle in the database.
+*/
 public class VehicleRegistration
 {
 	private Connection conn;
@@ -12,12 +15,22 @@ public class VehicleRegistration
 		this.conn = conn;
 	}
 
+	/*
+		Launch the vehicle registration subprogram in the application.
+	*/
 	public void run() {
 		String serialNo = insertVehicle();
 		insertOwner(serialNo);
 	}
 
-	//returns the serial number of inserted vehicle
+	/*
+		Enter a new vehicle in the database.  At each step the values entered by
+		the user are validated to ensure the user has input reasonable values
+		(i.e. of the correct data type and format).  Once the appropriate values
+		have been entered by the user the vehicle object is inserted into the
+		database using the Adapter class’ toSql function.  Returns the serial
+		number of inserted vehicle.
+	*/
 	private String insertVehicle()
 	{
 		Console co = System.console();
@@ -87,7 +100,15 @@ public class VehicleRegistration
 
 	}
 
-
+	/*
+		Registers an owner for the new vehicle.  Requests the user to input the
+		SIN of the owner. If the SIN is not in the database then the user can
+		choose to add the new person to the database.  Once a person registered
+		in the database has been selected the user then enters if this person is
+		the primary or secondary owner. The owner object, consisting of the valid
+		SIN, the vehicle’s serial number, and the ownership status, is then inserted
+		into the database using the Adapter class’ toSql function.
+	*/
 	private void insertOwner(String serial_no)
 	{
 		while (true)
@@ -135,9 +156,18 @@ public class VehicleRegistration
 				System.out.print("Invalid option, select [Y]es or [N]o\n");
 			}
 		}
-		
+
 	}
 
+	/*
+		Helper method used to create a new person in the database if the SIN of a
+		person not existing in the database is entered as the owner of the new
+		vehicle.  It does this by creating a new person object and requesting user
+		input to populate the person’s fields.  At each step the values entered
+		by the user are validated to ensure the user has input reasonable values.
+		Once the appropriate values have been entered by the user the person object
+		is inserted into the database using the Adapter class’ toSql function.
+	*/
 	protected void insertPerson(String SIN)
 	{
 		Console co = System.console();
