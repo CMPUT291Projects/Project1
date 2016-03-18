@@ -1,5 +1,5 @@
 public class driving_condition {
-	int c_id;
+	Integer c_id;
 	String description;
 
 	public driving_condition(int c_id, String description){
