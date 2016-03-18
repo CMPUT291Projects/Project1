@@ -29,7 +29,7 @@ public class LicenceRegistration
 		do {
 			System.out.print("Insert SIN.\n");
 			temp_sin = co.readLine();
-			if(!idExists(temp_sin, conn)) {
+			if(!idExists(temp_sin, this.conn)) {
 				sin = temp_sin;
 			} else {
 				System.out.print("SIN already exists, try again\n");
@@ -110,7 +110,13 @@ public class LicenceRegistration
 	private boolean idExists(String id, Connection conn)
 	{
 		try {
+			System.out.print("The conn is : ");
+			System.out.println(conn);
+			System.out.print("THe id is : ");
+			System.out.println(id);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			System.out.print("The statment is: ");
+			System.out.println(stmt);
 			String query = String.format("select sin from drive_licence where sin=%s", id);
 			ResultSet rs = stmt.executeQuery(query);
 			if(!rs.next()) {

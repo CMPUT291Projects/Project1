@@ -5,6 +5,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.sql.Blob;
+import java.io.InputStream;
 
 public class Adapter
 {
@@ -12,12 +14,19 @@ public class Adapter
 		try {
 			String name = obj.getClass().getName();
 			Field[] fields = obj.getClass().getFields();
+			boolean isThereBlob = false;
+			int blobSize = 0;
+			InputStream bytes = null;
 			StringBuilder builder = new StringBuilder();
 			builder.append("insert into ");
 			builder.append(name);
 			builder.append(" (");
 			for (Field field : fields) {
-				builder.append(field.getName());
+				if(field.getName().equals("classType")){
+					builder.append("class");
+				} else {	
+					builder.append(field.getName());
+				}
 				builder.append(",");
 			}
 			builder.deleteCharAt(builder.length() -1);
@@ -28,6 +37,7 @@ public class Adapter
 				boolean isString = field.getType() == String.class;
 				boolean isDate = field.getType() == Date.class;
 				boolean isFloat = field.getType() == Float.class;
+				boolean isBlob = field.getType() == Blob.class;
 				if (isString || isDate) {
 					builder.append("'");
 				}
@@ -39,6 +49,17 @@ public class Adapter
 					DecimalFormat df = new DecimalFormat("##.###");
 					Float flt = (Float) field.get(obj);
 					builder.append(df.format(flt));
+				} else if (isBlob){
+					isThereBlob = true;
+					Blob blb = (Blob) field.get(obj);
+					try{
+						bytes = blb.getBinaryStream();
+						blobSize = (int) blb.length();
+					}
+					catch(Exception e){
+						System.out.println("Error converting Blob to InputStream");
+					}
+					builder.append("?");
 				}  else {
 					builder.append(field.get(obj).toString());
 				}
@@ -49,12 +70,17 @@ public class Adapter
 			}
 			builder.deleteCharAt(builder.length() -1);
 			builder.append(")");
-
+			
 			String createString = builder.toString();
 			System.out.println(createString);
-			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-			stmt.executeUpdate(createString);
+			if(isThereBlob){
+				PreparedStatement pstmt = conn.prepareStatement(createString);
+				pstmt.setBinaryStream(1, bytes);
+				pstmt.executeUpdate();
+			} else {
+				Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+				stmt.executeUpdate(createString);
+			}
 		} catch (SQLException ex) {
 			System.out.println(
 				String.format("Unable to process the transaction because of a SQL exception: %s\n", ex.getMessage()));
