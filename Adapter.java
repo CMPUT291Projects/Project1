@@ -73,6 +73,7 @@ public class Adapter
 			
 			String createString = builder.toString();
 			System.out.println(createString);
+			// Blob requires a prepared statement so that we can load the input stream into sql.
 			if(isThereBlob){
 				PreparedStatement pstmt = conn.prepareStatement(createString);
 				pstmt.setBinaryStream(1, bytes);

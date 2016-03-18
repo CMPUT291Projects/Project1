@@ -57,6 +57,7 @@ public class LicenceRegistration
 		int nRead;
 		byte[] data = new byte[16384];
 
+		//converting file to byte array to be loaded in Blob
 		try{
 			while ((nRead = fileInput.read(data, 0, data.length)) != -1) {
 			  buffer.write(data, 0, nRead);
