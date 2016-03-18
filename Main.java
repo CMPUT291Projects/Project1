@@ -22,7 +22,7 @@ public class Main
 								"To perform a search enter 'S'\n" +
 								"To exit the system press 'E'\n");
 				Console co = System.console();
-				String action = co.readLine();
+				String action = co.readLine().toUpperCase();
 				System.out.println();
 				if (action.equals("R")) {
 					VehicleRegistration vr = new VehicleRegistration(cnxn);

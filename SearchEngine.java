@@ -68,6 +68,11 @@ public class SearchEngine
 		for (Object nr : nameResults) {
 			people r = (people) nr;
 			drive_licence l = (drive_licence) a.searchTablePrimaryKey(conn, new drive_licence(), "sin", r.sin);
+			if (l == null) {
+				System.out.println("Person has no driver licence.");
+				System.out.println();
+				return;
+			}
 			restriction e = (restriction) a.searchTablePrimaryKey(conn, new restriction(), "licence_no", l.licence_no);
 			System.out.print("Name:  "); System.out.println(r.name);
 			System.out.print("Licence no:  "); System.out.println(l.licence_no);
