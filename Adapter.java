@@ -36,8 +36,9 @@ public class Adapter
 					Date date = (Date) field.get(obj);
 					builder.append(format.format(date));
 				} else if (isFloat) {
-					DecimalFormat df = new DecimalFormat("##.###");
+					DecimalFormat df = new DecimalFormat("00.000");
 					Float flt = (Float) field.get(obj);
+					System.out.print(String.format("float value: %f, truncated value %s\n", flt, df.format(flt)));
 					builder.append(df.format(flt));
 				}  else {
 					builder.append(field.get(obj).toString());

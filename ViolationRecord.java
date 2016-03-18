@@ -3,6 +3,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 
 /*
 CREATE TABLE ticket (
@@ -74,10 +75,11 @@ public class ViolationRecord
 		List<ticket_type> types = getTicketTypes(conn);
 		boolean goodValue = false;
 		String input_type = null;
+		DecimalFormat df = new DecimalFormat("00.000");
 		while(!goodValue) {
 			System.out.print("violation type (  ");
 			for (ticket_type type : types) {
-				System.out.print(String.format("%s=%f  ", type.vtype.trim(), type.fine));
+				System.out.print(String.format("%s=%s  ", type.vtype.trim(), df.format(type.fine)));
 			}
 			System.out.print(")\n");
 			input_type = co.readLine().toLowerCase();
