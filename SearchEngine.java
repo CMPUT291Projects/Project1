@@ -67,6 +67,9 @@ public class SearchEngine
 
 		for (Object nr : nameResults) {
 			people r = (people) nr;
+			System.out.print("Name:  "); System.out.println(r.name);
+			System.out.print("Address:  "); System.out.println(r.addr);
+			System.out.print("Birthday:  "); System.out.println(r.birthday);
 			drive_licence l = (drive_licence) a.searchTablePrimaryKey(conn, new drive_licence(), "sin", r.sin);
 			if (l == null) {
 				System.out.println("Person has no driver licence.");
@@ -74,10 +77,7 @@ public class SearchEngine
 				return;
 			}
 			restriction e = (restriction) a.searchTablePrimaryKey(conn, new restriction(), "licence_no", l.licence_no);
-			System.out.print("Name:  "); System.out.println(r.name);
 			System.out.print("Licence no:  "); System.out.println(l.licence_no);
-			System.out.print("Address:  "); System.out.println(r.addr);
-			System.out.print("Birthday:  "); System.out.println(r.birthday);
 			System.out.print("Driving class:  "); System.out.println(l.classType);
 			System.out.print("Diving condition:  ");
 			if (e != null) {
