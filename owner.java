@@ -1,3 +1,6 @@
+/*
+	Model class representing the owner table in the database.
+*/
 public class owner
 {
 	public String owner_id;

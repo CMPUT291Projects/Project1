@@ -1,5 +1,8 @@
 import java.util.Date;
 
+/*
+	Model class representing the ticket table in the database.
+*/
 public class ticket
 {
 	public Integer ticket_no;

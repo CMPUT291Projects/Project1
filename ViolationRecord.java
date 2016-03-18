@@ -6,22 +6,8 @@ import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 
 /*
-CREATE TABLE ticket (
-  ticket_no     int,
-  violator_no   CHAR(15),
-  vehicle_id    CHAR(15),
-  office_no     CHAR(15),
-  vtype        char(10),
-  vdate        date,
-  place        varchar(20),
-  descriptions varchar(1024),
-  PRIMARY KEY (ticket_no),
-  FOREIGN KEY (vtype) REFERENCES ticket_type,
-  FOREIGN KEY (violator_no) REFERENCES people ON DELETE CASCADE,
-  FOREIGN KEY (vehicle_id)  REFERENCES vehicle,
-  FOREIGN KEY (office_no) REFERENCES people ON DELETE CASCADE
-);*/
-
+	Class for running the subprogram to enter a new violation into the database.
+*/
 public class ViolationRecord
 {
 	private Connection conn;
@@ -31,6 +17,15 @@ public class ViolationRecord
 		this.conn = conn;
 	}
 
+	/*
+		Launch subprogram and enter a new driving violation into the database.
+		It does this by creating a new ticket object and requesting user input to
+		populate the object’s fields.  At each step the values entered by the user
+		are validated to ensure the user has input reasonable values (i.e. of the
+		correct data type and format).  Once the appropriate values have been
+		entered by the user the new ticket object is inserted into the database
+		using the Adapter class’ toSql function.
+	*/
 	public void run() {
 		ConsoleParser parser = new ConsoleParser();
 		Adapter a = new Adapter();
@@ -115,6 +110,10 @@ public class ViolationRecord
 
 	}
 
+	/*
+		Retrieve all types of ticket violations from the ticket_type table and
+		return as a list.
+	*/
 	List<ticket_type> getTicketTypes(Connection conn) {
 		List<ticket_type> types = new ArrayList<ticket_type>();
 		try {

@@ -1,3 +1,6 @@
+/*
+	Model class representing the restriction table in the database.
+*/
 public class restriction
 {
 	public String licence_no;

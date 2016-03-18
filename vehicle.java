@@ -1,3 +1,6 @@
+/*
+	Model class representing the vehicle table in the database.
+*/
 public class vehicle
 {
 	public String serial_no;

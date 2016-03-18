@@ -4,6 +4,9 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.sql.SQLException;
 import javax.sql.rowset.serial.SerialException;
 
+/*
+	Model class representing the drive_licence table in the database.
+*/
 public class drive_licence {
 	public String licence_no;
 	public String sin;

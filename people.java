@@ -1,5 +1,8 @@
 import java.util.Date;
 
+/*
+	Model class representing the people table in the database.
+*/
 public class people implements Cloneable {
 
 	public String sin;

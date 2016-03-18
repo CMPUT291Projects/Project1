@@ -1,3 +1,6 @@
+/*
+	Model class representing the ticket_type table in the database.
+*/
 public class ticket_type
 {
 	public String vtype;

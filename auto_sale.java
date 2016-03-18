@@ -1,5 +1,8 @@
 import java.util.Date;
 
+/*
+	Model class representing the auto_sale table in the database.
+*/
 public class auto_sale
 {
 	public Integer transaction_id;

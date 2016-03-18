@@ -1,3 +1,6 @@
+/*
+	Model class representing the driving_condition table in the database.
+*/
 public class driving_condition {
 	public Integer c_id;
 	public String description;

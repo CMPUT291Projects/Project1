@@ -1,3 +1,6 @@
+/*
+	Model class representing the vehicle_type table in the database.
+*/
 public class vehicle_type
 {
 	public Integer type_id;
