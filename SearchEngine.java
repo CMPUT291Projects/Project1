@@ -2,6 +2,12 @@ import java.util.*;
 import java.sql.*;
 import java.io.*;
 
+/*
+	The SearchEngine class functions as a subprogram for searching the database.
+	The Main class executes the run method.  This method allows the user to select
+	what they want to search for.  The user can search for a name, licence number,
+	SIN sumber, or vehicle serial number.
+*/
 public class SearchEngine
 {
 	private Connection conn;
@@ -18,6 +24,12 @@ public class SearchEngine
 		}
 	}
 
+	/*
+		The run method launches the Search Engine subprogram.  This method queries
+		for user input to determine what the user wants to search fro, and then
+		calls the appropriate search method.  The user can continue to search the database
+		until they select to return to the main menu.
+	*/
 	public void run() {
 		while (true) {
 			System.out.print("To search for a person's name enter 'N'\n" +
@@ -49,6 +61,15 @@ public class SearchEngine
 		}
 	}
 
+	/*
+		Method allows the user to search for a person by name, and then display
+		information about them and their driver licence.  The user is prompted to
+		input a person’s name, and then this is searched for using Adapter.searchTableAnyKey.
+		All users found with the input name are displayed.  The person’s SIN is
+		used to find their drive licence (if they have one) and the drive licence’s
+		number is used to find if the person has any driving restrictions, both
+		done using Adapter.searchTablePrimaryKey.
+	*/
 	private void searchForName() {
 		Console co = System.console();
 		Adapter a = new Adapter();
@@ -67,6 +88,9 @@ public class SearchEngine
 
 		for (Object nr : nameResults) {
 			people r = (people) nr;
+			System.out.print("Name:  "); System.out.println(r.name);
+			System.out.print("Address:  "); System.out.println(r.addr);
+			System.out.print("Birthday:  "); System.out.println(r.birthday);
 			drive_licence l = (drive_licence) a.searchTablePrimaryKey(conn, new drive_licence(), "sin", r.sin);
 			if (l == null) {
 				System.out.println("Person has no driver licence.");
@@ -74,10 +98,7 @@ public class SearchEngine
 				return;
 			}
 			restriction e = (restriction) a.searchTablePrimaryKey(conn, new restriction(), "licence_no", l.licence_no);
-			System.out.print("Name:  "); System.out.println(r.name);
 			System.out.print("Licence no:  "); System.out.println(l.licence_no);
-			System.out.print("Address:  "); System.out.println(r.addr);
-			System.out.print("Birthday:  "); System.out.println(r.birthday);
 			System.out.print("Driving class:  "); System.out.println(l.classType);
 			System.out.print("Diving condition:  ");
 			if (e != null) {
@@ -91,6 +112,15 @@ public class SearchEngine
 		}
 	}
 
+	/*
+		Search for a driver by their licence number, and then display information
+		about the person, their driver licence and any violations they may have.
+		The input licence number is searched for using Adapter.searchTablePrimaryKey.
+		The licence’s SIN is used to find the person and the licence number is used
+		to find if the person has any driving restrictions, both done using
+		Adapter.searchTablePrimaryKey.  The person’s sin is then used to find any
+		violations they may have, using Adapter.searchTableAnyKey.
+	*/
 	private void searchforLicenceNo() {
 		Console co = System.console();
 		Adapter a = new Adapter();
@@ -148,7 +178,12 @@ public class SearchEngine
 
 	}
 
-	private void searchForSIN(){
+	/*
+		Search for a person using their SIN number and display information about
+		the person’s driving violations.  The person’s sin is used to find any
+		violation records they may have, using the searchTableAnyKey.
+	*/
+	private void searchForSIN() {
 		Console co = System.console();
 		Adapter a = new Adapter();
 
@@ -187,6 +222,12 @@ public class SearchEngine
 		}
 	}
 
+	/*
+		Search for a vehicle using its serial number, and display statistics about
+		the vehicle.  The serial number is used to find all sales and violations
+		the vehicle has been involved in using Adapter.searchTableAnyKey, and
+		then statistics about these results are computed and displayed.
+	*/
 	private void searchForSerialNo() {
 		Console co = System.console();
 		Adapter a = new Adapter();
