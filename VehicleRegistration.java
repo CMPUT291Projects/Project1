@@ -224,7 +224,6 @@ public class VehicleRegistration
 		}
 	}
 
-	//TODO(crashes if I pass 'asdf' as the id)
 	private boolean idExists(String id, Connection conn)
 	{
 		try {
