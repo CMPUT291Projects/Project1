@@ -133,7 +133,7 @@ public class VehicleRegistration
 		}
 	}
 
-	private void insertPerson(String SIN)
+	protected void insertPerson(String SIN)
 	{
 		Console co = System.console();
 		System.out.print("Name:\n");

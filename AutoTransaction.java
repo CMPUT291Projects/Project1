@@ -20,6 +20,8 @@ public class AutoTransaction
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			Console co = System.console();
 
+			VehicleRegistration vr = new VehicleRegistration(this.conn);
+
 			System.out.println("Create new auto sale transaction:");
 			// Create seller
 			System.out.print("Seller SIN:  ");
@@ -34,7 +36,7 @@ public class AutoTransaction
 				System.out.print("Do you want to insert a new person with this SIN? (Y/N)  ");
 				String response = co.readLine().toLowerCase();
 				if (response.equals("y")) {
-					insertPerson(sin);
+					vr.insertPerson(sin);
 					seller = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 				} else {
 					return;
@@ -52,7 +54,7 @@ public class AutoTransaction
 				System.out.print("Do you want to insert a new person with this SIN? (Y/N)  ");
 				String response = co.readLine().toLowerCase();
 				if (response.equals("y")) {
-					insertPerson(sin);
+					vr.insertPerson(sin);
 					buyer = (people) a.searchTablePrimaryKey(conn, p, "sin", sin);
 				} else {
 					return;
@@ -120,75 +122,5 @@ public class AutoTransaction
 			System.err.println("SQLException: " +
 			ex.getMessage());
 		}
-	}
-
-	private void insertPerson(String SIN)
-	{
-		Console co = System.console();
-		System.out.print("Name:  ");
-		String name = co.readLine();
-
-		Float height = null;
-		boolean goodValue = false;
-		while (!goodValue) {
-			try {
-				System.out.print("Height: (ex 113.42)  ");
-				height = Float.parseFloat(co.readLine());
-				goodValue = true;
-			} catch (NumberFormatException ex) {
-				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
-			}
-		}
-
-		Float weight = null;
-		goodValue = false;
-		while (!goodValue) {
-			try {
-				System.out.print("Weight: (ex 113.42)  ");
-				weight = Float.parseFloat(co.readLine());
-				goodValue = true;
-			} catch (NumberFormatException ex) {
-				System.out.print("Invalid number format, use 5 digits with 2 decimal places\n");
-			}
-		}
-
-		System.out.print("Eye Color:  ");
-		String eyeColor = co.readLine();
-
-		System.out.print("Hair Color:  ");
-		String hairColor = co.readLine();
-
-		System.out.print("Address: ");
-		String addr = co.readLine();
-
-		goodValue = false;
-		String gender = null;
-		while (!goodValue) {
-			System.out.print("Gender: (m, f)  ");
-			gender = co.readLine().toLowerCase();
-			if (!gender.equals("m") && !gender.equals("f")) {
-				System.out.println("Gender must be 'm' or 'f', try again");
-			} else {
-				goodValue = true;
-			}
-		}
-
-		goodValue = false;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date birthday = null;
-		while (!goodValue) {
-			System.out.print("Birthday: (yyyy-MM-dd)  ");
-			try {
-				birthday = format.parse(co.readLine());
-				goodValue = true;
-			} catch (Exception ex) {
-				System.out.println("Invalid birthday format, use 'yyyy-MM-dd'");
-			}
-		}
-
-	 	people p = new people(SIN, name, height, weight, eyeColor,
-					hairColor, addr, gender, birthday);
-		Adapter a = new Adapter();
-		a.toSql(conn, p);
 	}
 }
